@@ -45,6 +45,7 @@ import {
 } from "react";
 import { FORMS_ENABLED, STATIC_SITE, useSiteForms } from "@/lib/forms";
 import { Courses, Faq, History, Holidays } from "@/components/druzhba/sections";
+import { Mascot } from "@/components/druzhba/Mascot";
 import { quickFacts, scienceAreas } from "@/content/ciencia";
 import { mediaCredits } from "@/content/credits";
 import {
@@ -1387,6 +1388,7 @@ export default function Home() {
           {loading && !reduce && <Preloader onDone={finishIntro} />}
         </AnimatePresence>
         <Cursor />
+        <Mascot />
         <ScrollProgress />
         <Header />
 
