@@ -1,0 +1,42 @@
+/* ==================================================================
+   Rendimiento: misma apariencia con mucho menos trabajo para el navegador.
+   Se carga al final para sobrescribir los efectos más costosos.
+   ================================================================== */
+
+/* 1. Sin desenfoque en vivo (backdrop-filter recalcula todo lo que pasa por detrás). */
+.btn-glass, .clip-play, .tag, .glass, .site-header.solid, .modal-backdrop {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.btn-glass { background: rgba(255, 255, 255, 0.14); }
+.site-header.solid { background: rgba(5, 12, 29, 0.94); }
+.glass { background: rgba(12, 24, 52, 0.9); }
+.modal-backdrop { background: rgba(3, 8, 20, 0.9); }
+.clip-play { background: rgba(5, 12, 29, 0.45); }
+
+/* 2. Sin mezclas de color (mix-blend-mode obliga a recomponer la página en cada cuadro). */
+.cursor-dot, .cursor-ring, .hero-tint, .pano-word { mix-blend-mode: normal !important; }
+.cursor-dot { background: var(--red-hi); box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85); }
+.cursor-ring { border-color: rgba(255, 255, 255, 0.9); box-shadow: 0 0 0 1px rgba(5, 12, 29, 0.35); }
+.cursor-ring.hover { background: rgba(255, 255, 255, 0.18); }
+.hero-tint.mx { background: linear-gradient(120deg, rgba(10, 31, 68, 0.45), rgba(0, 57, 166, 0.2)); }
+.hero-tint.ru { background: linear-gradient(240deg, rgba(110, 15, 15, 0.36), rgba(10, 31, 68, 0.3)); }
+.pano-word { -webkit-text-stroke-color: rgba(255, 255, 255, 0.35); }
+
+/* 3. Textura y orbes fijos: gradientes en vez de desenfoque gigante animado. */
+.grain { animation: none !important; inset: 0; }
+.orb { filter: none !important; animation: none !important; opacity: 1 !important; }
+.orb-blue { background: radial-gradient(closest-side, rgba(0, 57, 166, 0.45), transparent); }
+.orb-red { background: radial-gradient(closest-side, rgba(213, 43, 30, 0.22), transparent); }
+
+/* 4. Sombra del personaje ya va dibujada en el SVG. */
+.mascot-btn { filter: none; }
+
+/* 5. Panorama: se escala (GPU) en lugar de recortarse en cada cuadro. */
+.pano-frame { border-radius: 28px; will-change: transform; }
+
+/* 6. Las secciones lejanas no se dibujan hasta que te acercas. */
+.videos, .about, .culture, .holidays, .learn, .courses, .community, .support, .faq, .contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1100px;
+}

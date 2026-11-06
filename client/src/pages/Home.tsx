@@ -94,18 +94,6 @@ const SOON_TEXT =
 const ERROR_TEXT =
   "No pudimos enviar el formulario. Revisa tus datos e inténtalo de nuevo.";
 
-/** Video 1080p solo si la conexión lo permite (sin ahorro de datos ni red lenta). */
-function goodConnection() {
-  try {
-    const c = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-    if (!c) return true;
-    if (c.saveData) return false;
-    return !c.effectiveType || c.effectiveType === "4g";
-  } catch {
-    return true;
-  }
-}
-
 const videoSources = (c: Clip, hq = false) => [
   { src: hq ? c.high : c.low, type: "video/webm" },
   { src: c.mov, type: "video/mp4" },
@@ -293,9 +281,7 @@ function Header() {
 
 function Hero({ ready }: { ready: boolean }) {
   const ref = useRef<HTMLElement>(null);
-  const desktop = useMedia("(min-width: 900px)");
   const fine = useMedia("(pointer: fine)");
-  const hq = desktop && goodConnection();
   const reduce = useReducedMotion();
   const split = useSpring(50, { stiffness: 60, damping: 18 });
   const clip = useMotionTemplate`polygon(calc(${split}% + 7vw) 0, 100% 0, 100% 100%, calc(${split}% - 7vw) 100%)`;
@@ -308,17 +294,7 @@ function Hero({ ready }: { ready: boolean }) {
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const mediaScale = useTransform(scrollYProgress, [0, 1], [1, 1.25]);
-  const radius = useTransform(scrollYProgress, [0, 1], [0, 48]);
 
-  useEffect(() => {
-    if (fine || reduce) return;
-    const c = animate(split, [50, 30, 70, 50], {
-      duration: 12,
-      repeat: Infinity,
-      ease: "easeInOut",
-    });
-    return () => c.stop();
-  }, [fine, reduce, split]);
 
   const mx = clipById("macroplaza");
   const ru = clipById("moscow");
@@ -337,14 +313,14 @@ function Hero({ ready }: { ready: boolean }) {
     >
       <motion.div
         className="hero-media"
-        style={{ scale: mediaScale, borderRadius: radius }}
+        style={{ scale: mediaScale }}
       >
         <div className="hero-layer">
           <LazyVideo
             eager
             className="hero-video"
             poster={toWebp(mx.poster, 1600)}
-            sources={videoSources(mx, hq)}
+            sources={videoSources(mx)}
             alt="Video de la Macroplaza de Monterrey"
           />
           <div className="hero-tint mx" />
@@ -357,7 +333,7 @@ function Hero({ ready }: { ready: boolean }) {
             eager
             className="hero-video"
             poster={toWebp(ru.poster, 1600)}
-            sources={videoSources(ru, hq)}
+            sources={videoSources(ru)}
             start={ru.start}
             end={ru.end}
             alt="Video aéreo de Moscú"
@@ -760,12 +736,11 @@ function Panorama() {
   });
   const scale = useTransform(scrollYProgress, [0, 1], [1.35, 1]);
   const x = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
-  const inset = useTransform(scrollYProgress, [0, 0.35], [12, 0]);
-  const clip = useMotionTemplate`inset(${inset}% ${inset}% ${inset}% ${inset}% round 28px)`;
+  const frameScale = useTransform(scrollYProgress, [0, 0.35], [0.88, 1]);
   const wordX = useTransform(scrollYProgress, [0, 1], ["20%", "-30%"]);
   return (
     <section ref={ref} className="panorama" aria-labelledby="pano-title">
-      <motion.div className="pano-frame" style={{ clipPath: clip }}>
+      <motion.div className="pano-frame" style={{ scale: frameScale }}>
         <Picture
           src={img("nl-panorama")}
           alt="Panorámica de Monterrey con el Cerro de la Silla"
@@ -889,9 +864,9 @@ function Science({ onRead }: { onRead: (a: Article) => void }) {
             key={area.id}
             className="area-panel"
             role="tabpanel"
-            initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, y: -20, filter: "blur(8px)" }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.55, ease: EASE }}
           >
             <div className="area-intro">
@@ -988,6 +963,7 @@ function Videos({ onPlay }: { onPlay: (c: Clip) => void }) {
                   sources={videoSources(c)}
                   start={c.start}
                   end={c.end}
+                  hoverPlay
                   alt={c.title}
                 />
                 <span className="clip-shade" />

@@ -313,8 +313,11 @@ export function VelocityMarquee({
   const skew = useTransform(smooth, [-3000, 0, 3000], [-8, 0, 8]);
   const x = useTransform(baseX, v => `${wrap(-50, 0, v)}%`);
   const dir = useRef(1);
+  // Solo se mueve cuando está en pantalla.
+  const boxRef = useRef<HTMLDivElement>(null);
+  const onScreen = useInView(boxRef);
   useAnimationFrame((_, delta) => {
-    if (reduce) return;
+    if (reduce || !onScreen) return;
     let move = dir.current * baseVelocity * (delta / 1000);
     const f = factor.get();
     if (f < 0) dir.current = -1;
@@ -323,7 +326,7 @@ export function VelocityMarquee({
     baseX.set(baseX.get() + move);
   });
   return (
-    <div className={`marquee ${className ?? ""}`} aria-hidden="true">
+    <div ref={boxRef} className={`marquee ${className ?? ""}`} aria-hidden="true">
       <motion.div className="marquee-track" style={{ x, skewX: skew }}>
         <span>{children}</span>
         <span>{children}</span>
@@ -544,6 +547,7 @@ export function LazyVideo({
   eager = false,
   start,
   end,
+  hoverPlay = false,
 }: {
   poster: string;
   sources: { src: string; type: string }[];
@@ -552,25 +556,51 @@ export function LazyVideo({
   eager?: boolean;
   start?: number;
   end?: number;
+  /** En computadora solo se reproduce al pasar el cursor; en celular, si está bien a la vista. */
+  hoverPlay?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const reduce = useReducedMotion();
+  const fine = useMedia("(pointer: fine)");
   const inView = useInView(ref, { margin: "200px 0px 200px 0px" });
+  // Para reproducir exigimos que el video esté realmente visible (60 %).
+  const visible = useInView(ref, { amount: 0.6 });
   // El póster se descarga solo cuando el video está cerca de la pantalla.
   const near = useInView(ref, { margin: "800px 0px 800px 0px", once: true });
+  const [hovered, setHovered] = useState(false);
+  const hoverMode = hoverPlay && fine;
+  const wantPlay = hoverMode ? hovered : hoverPlay ? visible : inView;
   const [armed, setArmed] = useState(eager);
+
   useEffect(() => {
-    if (inView) setArmed(true);
-  }, [inView]);
+    if (!hoverMode) return;
+    const host = ref.current?.parentElement;
+    if (!host) return;
+    const on = () => setHovered(true);
+    const off = () => setHovered(false);
+    host.addEventListener("pointerenter", on);
+    host.addEventListener("pointerleave", off);
+    host.addEventListener("focus", on);
+    host.addEventListener("blur", off);
+    return () => {
+      host.removeEventListener("pointerenter", on);
+      host.removeEventListener("pointerleave", off);
+      host.removeEventListener("focus", on);
+      host.removeEventListener("blur", off);
+    };
+  }, [hoverMode]);
+  useEffect(() => {
+    if (wantPlay) setArmed(true);
+  }, [wantPlay]);
   useEffect(() => {
     if (armed && !reduce) ref.current?.load();
   }, [armed, reduce]);
   useEffect(() => {
     const v = ref.current;
     if (!v || !armed || reduce) return;
-    if (inView) v.play().catch(() => undefined);
+    if (wantPlay) v.play().catch(() => undefined);
     else v.pause();
-  }, [inView, armed, reduce]);
+  }, [wantPlay, armed, reduce]);
   return (
     <video
       ref={ref}
