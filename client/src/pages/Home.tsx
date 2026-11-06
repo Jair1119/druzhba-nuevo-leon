@@ -46,6 +46,7 @@ import {
 import { FORMS_ENABLED, STATIC_SITE, useSiteForms } from "@/lib/forms";
 import { Courses, Faq, History, Holidays } from "@/components/druzhba/sections";
 import { Mascot } from "@/components/druzhba/Mascot";
+import { RusiaHoy } from "@/components/druzhba/RusiaHoy";
 import { setLite, useLite } from "@/lib/perfMode";
 
 function LiteToggle() {
@@ -118,7 +119,7 @@ function Brand({ footer = false }: { footer?: boolean }) {
     <a
       className="brand"
       href="#inicio"
-      aria-label="Druzhba Nuevo León, volver al inicio"
+      title="Druzhba Nuevo León: volver al inicio"
     >
       <span className="brand-flag" aria-hidden="true">
         <i />
@@ -261,6 +262,7 @@ function Header() {
               {[
                 ...navItems,
                 ["#videos", "Videos"] as [string, string],
+                ["#contacto", "Contacto"] as [string, string],
                 ["#comunidad", "Únete"] as [string, string],
               ].map(([href, label], i) => (
                 <motion.a
@@ -328,6 +330,7 @@ function Hero({ ready }: { ready: boolean }) {
         <div className="hero-layer">
           <LazyVideo
             eager
+            desktopOnly
             className="hero-video"
             poster={toWebp(mx.poster, 1600)}
             sources={videoSources(mx)}
@@ -341,6 +344,7 @@ function Hero({ ready }: { ready: boolean }) {
         >
           <LazyVideo
             eager
+            desktopOnly
             className="hero-video"
             poster={toWebp(ru.poster, 1600)}
             sources={videoSources(ru)}
@@ -1404,6 +1408,7 @@ export default function Home() {
           <Rhymes />
           <Panorama />
           <History />
+          <RusiaHoy />
           <Science onRead={setOpenArticle} />
           <Videos onPlay={setClip} />
           <About />

@@ -1,0 +1,57 @@
+/* ==================================================================
+   Rusia hoy: widgets en vivo
+   ================================================================== */
+
+.hoy { background: var(--night); background-image: radial-gradient(60% 50% at 0% 0%, rgba(0, 57, 166, 0.35), transparent 70%); background-repeat: no-repeat; }
+.hoy-grid { display: grid; gap: 14px; grid-template-columns: 1fr; align-items: start; }
+.hoy-side { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .hoy-side { grid-template-columns: repeat(2, 1fr); } .w-weather, .w-time { grid-column: 1 / -1; } }
+@media (min-width: 1100px) { .hoy-grid { grid-template-columns: 1.45fr 1fr; } }
+
+.w { position: relative; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line-light); border-radius: var(--radius); padding: 18px 20px; color: white; display: flex; flex-direction: column; min-width: 0; }
+.w-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.w-head h3 { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #9fbcff; }
+.w-updated { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--muted-light); }
+.w-note { margin: auto 0 0; padding-top: 12px; font-size: 0.74rem; color: var(--muted-light); }
+.w-note a, .w-more { color: #ff8d84; font-weight: 700; text-decoration: none; }
+.w-more { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; font-size: 0.82rem; }
+.w-more:hover, .w-note a:hover { text-decoration: underline; }
+.w-big { font-family: var(--display); font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 600; margin: 0; letter-spacing: -0.02em; }
+.w-big b { color: #ff8d84; font-weight: 700; }
+.w-small { margin: 6px 0 0; color: rgba(232, 238, 255, 0.82); font-size: 0.88rem; }
+
+/* Noticias */
+.w-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.w-tabs::-webkit-scrollbar { display: none; }
+.w-tabs button { flex: none; border: 1px solid var(--line-light); background: none; color: rgba(255, 255, 255, 0.8); border-radius: 999px; padding: 7px 12px; font-size: 0.78rem; font-weight: 700; }
+.w-tabs button.on { background: white; color: var(--navy); border-color: white; }
+.w-source { margin: 10px 0 4px; font-size: 0.74rem; color: #ffd28a; }
+.w-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.w-list li { border-top: 1px solid var(--line-light); padding: 12px 0; }
+.w-list li:first-child { border-top: 0; }
+.w-item { display: grid; gap: 4px; color: white; text-decoration: none; }
+.w-item strong { font-size: 0.95rem; line-height: 1.35; font-weight: 700; }
+.w-item span { font-size: 0.82rem; line-height: 1.5; color: var(--muted-light); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.w-item em { font-style: normal; font-size: 0.72rem; color: var(--muted-light); display: inline-flex; align-items: center; gap: 5px; }
+.w-item:hover strong { color: #ff8d84; }
+.w-tr { display: inline-flex; align-items: center; gap: 5px; margin-top: 6px; font-size: 0.74rem; font-weight: 700; color: #9fbcff; text-decoration: none; }
+.w-tr:hover { text-decoration: underline; }
+.w-skeleton { height: 64px; border-radius: 12px; background: linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04)); background-size: 200% 100%; animation: w-shimmer 1.4s linear infinite; margin-bottom: 10px; border-top: 0 !important; }
+@keyframes w-shimmer { to { background-position: -200% 0; } }
+.w-empty { color: var(--muted-light); font-size: 0.88rem; }
+
+/* Clima y hora */
+.w-cities, .w-clocks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.w-city { display: grid; gap: 2px; }
+.w-city-name, .w-clocks small { font-size: 0.74rem; color: var(--muted-light); font-weight: 700; letter-spacing: 0.06em; }
+.w-temp { font-family: var(--display); font-size: 1.8rem; font-weight: 600; }
+.w-cond { font-size: 0.78rem; color: rgba(232, 238, 255, 0.8); }
+.w-clocks div { display: grid; gap: 6px; justify-items: start; }
+
+/* Palabra */
+.w-ru { font-family: var(--display); font-size: 2rem; font-weight: 700; margin: 0; color: white; }
+.w-word { background-image: linear-gradient(135deg, rgba(0, 57, 166, 0.35), transparent 70%); }
+.w-fiesta { background-image: linear-gradient(135deg, rgba(213, 43, 30, 0.3), transparent 70%); }
+
+.w-disclaimer { margin: 18px 0 0; font-size: 0.78rem; color: var(--muted-light); max-width: 760px; }
+.lite .w-skeleton { animation: none; }

@@ -51,7 +51,7 @@ export function ResourceCard({ r }: { r: Resource }) {
         href={r.url}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`${r.title}: abrir el sitio en una pestaña nueva`}
+        aria-label={`Visitar sitio de ${r.title} (se abre en una pestaña nueva)`}
       >
         Visitar sitio <ArrowUpRight size={15} />
       </a>

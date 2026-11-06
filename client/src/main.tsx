@@ -11,6 +11,7 @@ import "./sections.css";
 import "./mascot.css";
 import "./perf.css";
 import "./directory.css";
+import "./hoy.css";
 import { initPerfMode } from "./lib/perfMode";
 
 initPerfMode();

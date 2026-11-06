@@ -417,7 +417,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
       done = true;
       setFontsReady(true);
     };
-    const t = window.setTimeout(finish, 1500);
+    const t = window.setTimeout(finish, 700);
     try {
       document.fonts?.load("700 64px Unbounded", "ДРУЖБА").then(finish, finish);
     } catch {
@@ -428,12 +428,12 @@ export function Preloader({ onDone }: { onDone: () => void }) {
   useEffect(() => {
     if (!fontsReady) return;
     const c = animate(0, 100, {
-      duration: 1.6,
+      duration: 1,
       ease: [0.65, 0, 0.35, 1],
       onUpdate: v => setCount(Math.round(v)),
       onComplete: () => {
         setLeaving(true);
-        window.setTimeout(onDone, 1100);
+        window.setTimeout(onDone, 800);
       },
     });
     return () => c.stop();
@@ -551,6 +551,7 @@ export function LazyVideo({
   start,
   end,
   hoverPlay = false,
+  desktopOnly = false,
 }: {
   poster: string;
   sources: { src: string; type: string }[];
@@ -561,6 +562,8 @@ export function LazyVideo({
   end?: number;
   /** En computadora solo se reproduce al pasar el cursor; en celular, si está bien a la vista. */
   hoverPlay?: boolean;
+  /** Solo en computadora; en celular se queda la foto (ahorra datos). */
+  desktopOnly?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const reduce = useReducedMotion();
@@ -574,7 +577,7 @@ export function LazyVideo({
   const lite = useLite();
   const hoverMode = hoverPlay && fine;
   // En modo ligero solo se reproduce lo que la persona pide (al pasar el cursor).
-  const wantPlay = hoverMode ? hovered : lite ? false : hoverPlay ? visible : inView;
+  const wantPlay = hoverMode ? hovered : lite || (desktopOnly && !fine) ? false : hoverPlay ? visible : inView;
   const [armed, setArmed] = useState(eager);
 
   useEffect(() => {

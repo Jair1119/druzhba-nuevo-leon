@@ -50,7 +50,7 @@ export default function Directory() {
     <div className="dir">
       <header className="dir-bar">
         <div className="wrap dir-bar-in">
-          <a className="brand" href={HOME} aria-label="Volver al inicio de Druzhba Nuevo León">
+          <a className="brand" href={HOME} title="Volver al inicio de Druzhba Nuevo León">
             <span className="brand-flag" aria-hidden="true">
               <i />
               <i />

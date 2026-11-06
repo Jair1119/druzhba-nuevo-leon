@@ -128,7 +128,7 @@ export const navItems: [string, string][] = [
   ["#cultura", "Cultura"],
   ["#aprende", "Aprende ruso"],
   ["#cursos", "Cursos y becas"],
-  ["#contacto", "Contacto"],
+  ["#hoy", "Rusia hoy"],
 ];
 
 /* Dos paisajes que riman: Nuevo León ⟷ Rusia */
