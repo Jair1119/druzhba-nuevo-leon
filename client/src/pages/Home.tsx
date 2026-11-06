@@ -357,6 +357,8 @@ function Hero({ ready }: { ready: boolean }) {
             className="hero-video"
             poster={toWebp(ru.poster, 1600)}
             sources={videoSources(ru, hq)}
+            start={ru.start}
+            end={ru.end}
             alt="Video aéreo de Moscú"
           />
           <div className="hero-tint ru" />
@@ -983,6 +985,8 @@ function Videos({ onPlay }: { onPlay: (c: Clip) => void }) {
                   className="clip-video"
                   poster={toWebp(c.poster, 800)}
                   sources={videoSources(c)}
+                  start={c.start}
+                  end={c.end}
                   alt={c.title}
                 />
                 <span className="clip-shade" />
@@ -1905,6 +1909,9 @@ export default function Home() {
               >
                 <video
                   key={clip.id}
+                  onLoadedMetadata={e => {
+                    if (clip.start !== undefined) e.currentTarget.currentTime = clip.start;
+                  }}
                   controls
                   autoPlay
                   playsInline

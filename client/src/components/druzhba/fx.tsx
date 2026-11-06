@@ -542,12 +542,16 @@ export function LazyVideo({
   className,
   alt,
   eager = false,
+  start,
+  end,
 }: {
   poster: string;
   sources: { src: string; type: string }[];
   className?: string;
   alt: string;
   eager?: boolean;
+  start?: number;
+  end?: number;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const reduce = useReducedMotion();
@@ -573,10 +577,24 @@ export function LazyVideo({
       className={className}
       poster={eager || near ? poster : undefined}
       muted
-      loop
+      loop={start === undefined}
       playsInline
       preload="none"
       aria-label={alt}
+      onLoadedMetadata={e => {
+        if (start !== undefined) e.currentTarget.currentTime = start;
+      }}
+      onTimeUpdate={e => {
+        // Repite solo el tramo elegido del video.
+        const v = e.currentTarget;
+        if (start === undefined) return;
+        if ((end !== undefined && v.currentTime >= end) || v.currentTime < start - 0.5) v.currentTime = start;
+      }}
+      onEnded={e => {
+        if (start === undefined) return;
+        e.currentTarget.currentTime = start;
+        e.currentTarget.play().catch(() => undefined);
+      }}
     >
       {armed &&
         !reduce &&

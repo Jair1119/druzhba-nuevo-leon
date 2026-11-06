@@ -229,6 +229,9 @@ export type Clip = {
   high: string;
   mov: string;
   vertical?: boolean;
+  /** Tramo del video (segundos) que se repite en bucle. */
+  start?: number;
+  end?: number;
 };
 
 const clip = (
@@ -249,8 +252,11 @@ export const clips: Clip[] = [
   clip("moscow", "b/b6", "Aerial_views_of_Moscow%2C_Russia_in_May_2018.webm", {
     title: "Moscú desde el aire",
     titleRu: "Москва",
-    place: "Rusia",
+    place: "Puente Zhivopisny y Moscow City",
     country: "ru",
+    // Solo el tramo con el puente rojo y los rascacielos de Moscow City.
+    start: 40,
+    end: 72,
   }),
   clip("macroplaza", "e/ee", "Macroplaza_de_Monterrey_y_alrededores.webm", {
     title: "Macroplaza y alrededores",
