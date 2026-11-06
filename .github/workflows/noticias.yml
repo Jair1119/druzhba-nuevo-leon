@@ -1,0 +1,48 @@
+# Robot de noticias de Druzhba Nuevo León.
+# Cada 30 minutos lee fuentes rusas (RSS) y el tipo de cambio, y publica
+# news.json en la rama «news-data». La página lo lee desde raw.githubusercontent.com.
+name: Noticias de Rusia
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/noticias.yml"
+      - "scripts/noticias.mjs"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: noticias
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Leer fuentes y tipo de cambio
+        run: node scripts/noticias.mjs out/news.json
+
+      - name: Publicar en la rama news-data (un solo commit, sin historial)
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          cd out
+          git init -q -b news-data
+          git config user.name "druzhba-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add news.json
+          git commit -q -m "Noticias $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${TOKEN}@github.com/${REPO}.git" news-data
