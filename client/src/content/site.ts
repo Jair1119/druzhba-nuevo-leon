@@ -11,7 +11,8 @@ export type Article = {
   body: string[];
 };
 
-const IMG = "/media/img";
+const BASE = import.meta.env.BASE_URL;
+const IMG = `${BASE}media/img`;
 export const img = (key: string) => `${IMG}/${key}.jpg`;
 
 export const articles: Article[] = [
@@ -22,7 +23,7 @@ export const articles: Article[] = [
     summary:
       "Por qué Alexandr Pushkin sigue siendo la puerta de entrada a la literatura rusa.",
     minutes: 4,
-    image: "/images/saint-basil.jpg",
+    image: `${BASE}images/saint-basil.jpg`,
     alt: "Cúpulas de la catedral de San Basilio, Moscú",
     body: [
       "Alexandr Serguéievich Pushkin (1799–1837) es para Rusia lo que Cervantes es para el español: el escritor a partir del cual se mide todo lo demás. Antes de él, la literatura rusa culta se escribía muchas veces imitando modelos franceses o con un lenguaje solemne y lejano. Pushkin mezcló el habla cotidiana con la tradición literaria y demostró que el ruso podía ser ligero, irónico y profundo al mismo tiempo.",
@@ -37,7 +38,7 @@ export const articles: Article[] = [
     summary:
       "La cerámica azul y blanca que se volvió una de las firmas visuales de Rusia.",
     minutes: 3,
-    image: "/images/gzhel.jpg",
+    image: `${BASE}images/gzhel.jpg`,
     alt: "Patrón decorativo azul y blanco inspirado en la cerámica de Gzhel",
     body: [
       "Gzhel es el nombre de una zona de pueblos al sureste de Moscú con una larga tradición alfarera, gracias a la calidad de sus arcillas. Con el tiempo, el nombre pasó a designar un estilo: piezas de porcelana o loza blanca pintadas a mano con azul cobalto.",
@@ -51,7 +52,7 @@ export const articles: Article[] = [
     title: "Maslenitsa: despedir el invierno con alegría",
     summary: "Blinis, juegos y una semana entera para decirle adiós al frío.",
     minutes: 3,
-    image: "/images/maslenitsa.jpg",
+    image: `${BASE}images/maslenitsa.jpg`,
     alt: "Celebración de Maslenitsa con vestimenta y música tradicional",
     body: [
       "Maslenitsa es una de las fiestas populares más antiguas de Rusia. Dura una semana y se celebra justo antes de la Gran Cuaresma ortodoxa, por lo que su fecha cambia cada año, normalmente entre febrero y marzo. Su origen es anterior al cristianismo: era una forma de despedir el invierno y recibir al sol.",

@@ -43,7 +43,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { trpc } from "@/lib/trpc";
+import { FORMS_ENABLED, useSiteForms } from "@/lib/forms";
 import { quickFacts, scienceAreas } from "@/content/ciencia";
 import { mediaCredits } from "@/content/credits";
 import {
@@ -85,6 +85,8 @@ const areaIcons: Record<string, typeof Rocket> = {
   energia: Zap,
   tecnologia: Cpu,
 };
+const SOON_TEXT =
+  "El registro en línea abrirá muy pronto. ¡Gracias por tu interés en Druzhba!";
 const ERROR_TEXT =
   "No pudimos enviar el formulario. Revisa tus datos e inténtalo de nuevo.";
 
@@ -1274,9 +1276,7 @@ export default function Home() {
   const [clip, setClip] = useState<Clip | null>(null);
   useLockScroll(!!openArticle || privacyOpen || !!clip || loading);
 
-  const join = trpc.community.join.useMutation();
-  const newsletter = trpc.community.newsletter.useMutation();
-  const contact = trpc.community.contact.useMutation();
+  const { join, newsletter, contact } = useSiteForms();
 
   const finishIntro = useCallback(() => {
     setLoading(false);
@@ -1440,7 +1440,7 @@ export default function Home() {
                       Gracias por sumarte. ¡Tu registro quedó guardado!
                     </Status>
                   )}
-                  {join.isError && <Status ok={false}>{ERROR_TEXT}</Status>}
+                  {join.isError && <Status ok={false}>{FORMS_ENABLED ? ERROR_TEXT : SOON_TEXT}</Status>}
                   <form onSubmit={handleJoin}>
                     <div className="form-grid">
                       <div className="field">
@@ -1619,7 +1619,7 @@ export default function Home() {
                       <Status ok>Listo, te avisaremos de las novedades.</Status>
                     )}
                     {newsletter.isError && (
-                      <Status ok={false}>{ERROR_TEXT}</Status>
+                      <Status ok={false}>{FORMS_ENABLED ? ERROR_TEXT : SOON_TEXT}</Status>
                     )}
                     <div className="newsletter-row">
                       <input
@@ -1649,7 +1649,7 @@ export default function Home() {
                       Mensaje enviado. Gracias por escribirnos.
                     </Status>
                   )}
-                  {contact.isError && <Status ok={false}>{ERROR_TEXT}</Status>}
+                  {contact.isError && <Status ok={false}>{FORMS_ENABLED ? ERROR_TEXT : SOON_TEXT}</Status>}
                   <form onSubmit={handleContact}>
                     <div className="form-grid">
                       <div className="field">

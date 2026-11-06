@@ -43,6 +43,19 @@ El servidor lee su configuración de variables de entorno (nunca se suben al rep
 `DATABASE_URL`, `MANUS_PROJECT_ID`, `MANUS_JWT_SECRET`, `MANUS_OAUTH_API_URL`,
 `MANUS_API_URL`, `MANUS_API_KEY` y, opcionalmente, `OWNER_OPEN_ID`.
 
+## Sitio en GitHub Pages
+
+Versión estática publicada en **https://jair1119.github.io/druzhba-nuevo-leon/**
+(rama `github-pages`, carpeta `docs/`).
+
+```bash
+pnpm build:pages   # recompila docs/ con vite.pages.config.ts
+```
+
+En la versión estática no hay base de datos: los formularios se envían a
+`VITE_FORM_ENDPOINT` (por ejemplo, un formulario de Formspree) si se define en `.env`
+antes de compilar; si no, avisan que el registro abrirá pronto.
+
 ## Estructura
 
 | Ruta | Contenido |

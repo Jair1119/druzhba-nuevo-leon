@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Druzhba Nuevo León">
+  <rect width="512" height="512" rx="96" fill="#0039A6"/>
+  <path d="M118 256c0-90 61-160 138-160s138 70 138 160v93H118z" fill="none" stroke="#fff" stroke-width="18"/>
+  <path d="M256 67v-29M240 48h32" stroke="#D52B1E" stroke-width="16" stroke-linecap="round"/>
+  <path d="M157 238c25-48 57-72 99-72s74 24 99 72" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="192" cy="269" r="12" fill="#fff"/><circle cx="256" cy="269" r="12" fill="#fff"/><circle cx="320" cy="269" r="12" fill="#fff"/>
+  <path d="M178 334h156" stroke="#D52B1E" stroke-width="14" stroke-linecap="round"/>
+</svg>
