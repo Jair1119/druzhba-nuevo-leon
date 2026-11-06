@@ -402,7 +402,25 @@ export function ScrollProgress() {
 export function Preloader({ onDone }: { onDone: () => void }) {
   const [count, setCount] = useState(0);
   const [leaving, setLeaving] = useState(false);
+  // Espera a la tipografía cirílica (máx. 1.5 s) para no mostrar letras de respaldo.
+  const [fontsReady, setFontsReady] = useState(false);
   useEffect(() => {
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      setFontsReady(true);
+    };
+    const t = window.setTimeout(finish, 1500);
+    try {
+      document.fonts?.load("700 64px Unbounded", "ДРУЖБА").then(finish, finish);
+    } catch {
+      finish();
+    }
+    return () => window.clearTimeout(t);
+  }, []);
+  useEffect(() => {
+    if (!fontsReady) return;
     const c = animate(0, 100, {
       duration: 1.6,
       ease: [0.65, 0, 0.35, 1],
@@ -413,7 +431,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
       },
     });
     return () => c.stop();
-  }, [onDone]);
+  }, [onDone, fontsReady]);
   return (
     <div
       className={`preloader ${leaving ? "leaving" : ""}`}
@@ -429,14 +447,14 @@ export function Preloader({ onDone }: { onDone: () => void }) {
         <motion.div
           className="pre-word"
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={fontsReady ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.8, ease: EASE }}
         >
           {"ДРУЖБА".split("").map((ch, i) => (
             <motion.span
               key={i}
               initial={{ y: "100%" }}
-              animate={{ y: "0%" }}
+              animate={fontsReady ? { y: "0%" } : undefined}
               transition={{ duration: 0.9, ease: EASE, delay: 0.1 + i * 0.07 }}
             >
               {ch}
@@ -478,6 +496,44 @@ export function CityClock({ tz }: { tz: string }) {
   return <span className="clock">{s}</span>;
 }
 
+/* ---------- Imagen optimizada: WebP (800/1600 px) con JPG de respaldo ---------- */
+
+export const toWebp = (src: string, w: 800 | 1600) => src.replace(/\.jpe?g$/i, `-${w}.webp`);
+const webpSet = (src: string) => `${toWebp(src, 800)} 800w, ${toWebp(src, 1600)} 1600w`;
+
+export function Picture({
+  src,
+  alt,
+  sizes = "100vw",
+  className,
+  loading = "lazy",
+  priority = false,
+  style,
+}: {
+  src: string;
+  alt: string;
+  sizes?: string;
+  className?: string;
+  loading?: "lazy" | "eager";
+  priority?: boolean;
+  style?: React.ComponentProps<typeof motion.img>["style"];
+}) {
+  return (
+    <picture>
+      <source type="image/webp" srcSet={webpSet(src)} sizes={sizes} />
+      <motion.img
+        src={src}
+        alt={alt}
+        className={className}
+        loading={priority ? "eager" : loading}
+        decoding="async"
+        fetchPriority={priority ? "high" : undefined}
+        style={style}
+      />
+    </picture>
+  );
+}
+
 /* ---------- Video que se reproduce sólo cuando está en pantalla ---------- */
 
 export function LazyVideo({
@@ -496,6 +552,8 @@ export function LazyVideo({
   const ref = useRef<HTMLVideoElement>(null);
   const reduce = useReducedMotion();
   const inView = useInView(ref, { margin: "200px 0px 200px 0px" });
+  // El póster se descarga solo cuando el video está cerca de la pantalla.
+  const near = useInView(ref, { margin: "800px 0px 800px 0px", once: true });
   const [armed, setArmed] = useState(eager);
   useEffect(() => {
     if (inView) setArmed(true);
@@ -513,7 +571,7 @@ export function LazyVideo({
     <video
       ref={ref}
       className={className}
-      poster={poster}
+      poster={eager || near ? poster : undefined}
       muted
       loop
       playsInline

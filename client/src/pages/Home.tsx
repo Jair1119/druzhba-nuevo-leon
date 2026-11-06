@@ -44,6 +44,7 @@ import {
   useState,
 } from "react";
 import { FORMS_ENABLED, STATIC_SITE, useSiteForms } from "@/lib/forms";
+import { Courses, Faq, History, Holidays } from "@/components/druzhba/sections";
 import { quickFacts, scienceAreas } from "@/content/ciencia";
 import { mediaCredits } from "@/content/credits";
 import {
@@ -68,6 +69,7 @@ import {
   EASE,
   LazyVideo,
   Magnetic,
+  Picture,
   Preloader,
   Reveal,
   Scramble,
@@ -75,6 +77,7 @@ import {
   SplitReveal,
   Tilt,
   VelocityMarquee,
+  toWebp,
   useMedia,
 } from "@/components/druzhba/fx";
 
@@ -89,6 +92,18 @@ const SOON_TEXT =
   "El registro en línea abrirá muy pronto. ¡Gracias por tu interés en Druzhba!";
 const ERROR_TEXT =
   "No pudimos enviar el formulario. Revisa tus datos e inténtalo de nuevo.";
+
+/** Video 1080p solo si la conexión lo permite (sin ahorro de datos ni red lenta). */
+function goodConnection() {
+  try {
+    const c = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    if (!c) return true;
+    if (c.saveData) return false;
+    return !c.effectiveType || c.effectiveType === "4g";
+  } catch {
+    return true;
+  }
+}
 
 const videoSources = (c: Clip, hq = false) => [
   { src: hq ? c.high : c.low, type: "video/webm" },
@@ -279,6 +294,7 @@ function Hero({ ready }: { ready: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const desktop = useMedia("(min-width: 900px)");
   const fine = useMedia("(pointer: fine)");
+  const hq = desktop && goodConnection();
   const reduce = useReducedMotion();
   const split = useSpring(50, { stiffness: 60, damping: 18 });
   const clip = useMotionTemplate`polygon(calc(${split}% + 7vw) 0, 100% 0, 100% 100%, calc(${split}% - 7vw) 100%)`;
@@ -326,8 +342,8 @@ function Hero({ ready }: { ready: boolean }) {
           <LazyVideo
             eager
             className="hero-video"
-            poster={mx.poster}
-            sources={videoSources(mx, desktop)}
+            poster={toWebp(mx.poster, 1600)}
+            sources={videoSources(mx, hq)}
             alt="Video de la Macroplaza de Monterrey"
           />
           <div className="hero-tint mx" />
@@ -339,8 +355,8 @@ function Hero({ ready }: { ready: boolean }) {
           <LazyVideo
             eager
             className="hero-video"
-            poster={ru.poster}
-            sources={videoSources(ru, desktop)}
+            poster={toWebp(ru.poster, 1600)}
+            sources={videoSources(ru, hq)}
             alt="Video aéreo de Moscú"
           />
           <div className="hero-tint ru" />
@@ -692,10 +708,10 @@ function Rhymes() {
               </header>
               <div className="rhyme-pair">
                 <figure className="rhyme-img mx" data-cursor="Nuevo León">
-                  <img
+                  <Picture
                     src={r.nl.src}
                     alt={`${r.nl.name}, ${r.nl.place}`}
-                    loading="lazy"
+                    sizes="(min-width: 900px) 460px, 45vw"
                   />
                   <figcaption>
                     <span className="tag mx">MX</span>
@@ -704,10 +720,10 @@ function Rhymes() {
                   </figcaption>
                 </figure>
                 <figure className="rhyme-img ru" data-cursor="Россия">
-                  <img
+                  <Picture
                     src={r.ru.src}
                     alt={`${r.ru.name}, ${r.ru.place}`}
-                    loading="lazy"
+                    sizes="(min-width: 900px) 460px, 45vw"
                   />
                   <figcaption>
                     <span className="tag ru">RU</span>
@@ -747,7 +763,7 @@ function Panorama() {
   return (
     <section ref={ref} className="panorama" aria-labelledby="pano-title">
       <motion.div className="pano-frame" style={{ clipPath: clip }}>
-        <motion.img
+        <Picture
           src={img("nl-panorama")}
           alt="Panorámica de Monterrey con el Cerro de la Silla"
           style={{ scale, x }}
@@ -965,7 +981,7 @@ function Videos({ onPlay }: { onPlay: (c: Clip) => void }) {
               >
                 <LazyVideo
                   className="clip-video"
-                  poster={c.poster}
+                  poster={toWebp(c.poster, 800)}
                   sources={videoSources(c)}
                   alt={c.title}
                 />
@@ -1014,9 +1030,10 @@ function About() {
       <div className="wrap about-grid">
         <div className="about-visual">
           <div className="about-img" data-cursor="Cerro de la Silla">
-            <motion.img
+            <Picture
               src={img("nl-silla")}
               alt="El Cerro de la Silla, símbolo de Monterrey"
+              sizes="(min-width: 960px) 40vw, 92vw"
               style={{ y: imgY }}
             />
           </div>
@@ -1115,7 +1132,7 @@ function Culture({ onOpen }: { onOpen: (a: Article) => void }) {
                   className="article-image"
                   layoutId={`art-img-${a.id}`}
                 >
-                  <img src={a.image} alt={a.alt} loading="lazy" />
+                  <Picture src={a.image!} alt={a.alt ?? ""} sizes="(min-width: 860px) 30vw, 92vw" />
                 </motion.div>
                 <div className="article-body">
                   <span className="article-category">{a.category}</span>
@@ -1250,6 +1267,10 @@ function Learn() {
               <strong>Tip:</strong> en ruso la «О» sin acento suena casi como
               «a». Por eso Спасибо se dice «spa-SÍ-ba» y no «spa-sí-bo».
             </p>
+            <a className="learn-more" href="#cursos">
+              ¿Quieres seguir? Cursos de ruso y becas gratuitas{" "}
+              <ArrowDown size={16} />
+            </a>
           </div>
         </div>
       </div>
@@ -1391,16 +1412,19 @@ export default function Home() {
           <Bridge />
           <Rhymes />
           <Panorama />
+          <History />
           <Science onRead={setOpenArticle} />
           <Videos onPlay={setClip} />
           <About />
           <Culture onOpen={setOpenArticle} />
+          <Holidays />
           <Learn />
+          <Courses />
 
           {/* COMUNIDAD */}
           <section className="community section" id="comunidad">
             <div className="community-bg" aria-hidden="true">
-              <img src={img("nl-skyline")} alt="" loading="lazy" />
+              <Picture src={img("nl-skyline")} alt="" />
             </div>
             <div className="wrap community-grid">
               <div className="community-copy">
@@ -1579,6 +1603,8 @@ export default function Home() {
             </div>
           </section>
 
+          <Faq />
+
           {/* CONTACTO */}
           <section className="contact section" id="contacto">
             <div className="wrap contact-grid">
@@ -1737,9 +1763,12 @@ export default function Home() {
                 <div className="footer-links">
                   <a href="#puente">El puente</a>
                   <a href="#rimas">Nuevo León ⟷ Rusia</a>
+                  <a href="#historia">México y Rusia en la historia</a>
                   <a href="#ciencia">Ciencia y tecnología</a>
                   <a href="#cultura">Cultura rusa</a>
+                  <a href="#calendario">Calendario que rima</a>
                   <a href="#aprende">Aprende ruso</a>
+                  <a href="#cursos">Cursos y becas gratis</a>
                 </div>
               </div>
               <div>
@@ -1747,6 +1776,7 @@ export default function Home() {
                 <div className="footer-links">
                   <a href="#comunidad">Únete a la comunidad</a>
                   <a href="#apoya">Apoya el proyecto</a>
+                  <a href="#preguntas">Preguntas frecuentes</a>
                   <a href="#contacto">Contacto</a>
                   <button
                     type="button"
@@ -1820,7 +1850,7 @@ export default function Home() {
                     className="modal-hero"
                     layoutId={`art-img-${openArticle.id}`}
                   >
-                    <img src={openArticle.image} alt={openArticle.alt ?? ""} />
+                    <Picture src={openArticle.image} alt={openArticle.alt ?? ""} sizes="(min-width: 760px) 720px, 100vw" priority />
                   </motion.div>
                 )}
                 <div
@@ -1878,7 +1908,7 @@ export default function Home() {
                   controls
                   autoPlay
                   playsInline
-                  poster={clip.poster}
+                  poster={toWebp(clip.poster, 1600)}
                 >
                   {videoSources(clip, true).map(s => (
                     <source key={s.src} src={s.src} type={s.type} />

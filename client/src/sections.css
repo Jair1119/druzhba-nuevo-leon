@@ -1,0 +1,125 @@
+/* ==================================================================
+   Secciones nuevas: historia, calendario, cursos y preguntas
+   ================================================================== */
+
+.rounded-top { border-radius: 40px 40px 0 0; margin-top: -40px; z-index: 2; }
+
+/* ---------- Historia México ⟷ Rusia ---------- */
+.history { background: var(--paper); color: var(--ink); }
+.timeline { position: relative; }
+.timeline ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+.timeline-track { position: absolute; top: 0; bottom: 0; left: 15px; width: 2px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.timeline-line { position: absolute; inset: 0; transform-origin: top; background: linear-gradient(180deg, var(--blue), var(--red)); }
+.tl-item { position: relative; padding-left: 48px; }
+.tl-dot { position: absolute; left: 8px; top: 28px; width: 16px; height: 16px; border-radius: 50%; background: white; border: 3px solid var(--blue); box-shadow: 0 0 0 6px var(--paper); z-index: 1; }
+.tl-item:nth-child(even) .tl-dot { border-color: var(--red); }
+.tl-card { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; box-shadow: 0 30px 60px -45px rgba(10, 31, 68, 0.45); transition: box-shadow 0.5s var(--ease); }
+.tl-card:hover { box-shadow: 0 40px 70px -40px rgba(10, 31, 68, 0.55); }
+.tl-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.tl-year { font-family: var(--display); font-weight: 800; font-size: clamp(1.8rem, 3.4vw, 2.6rem); letter-spacing: -0.04em; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px var(--navy); }
+.tl-item:nth-child(even) .tl-year { -webkit-text-stroke-color: var(--red); }
+.tl-tag { font-size: 0.66rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); background: rgba(0, 57, 166, 0.08); padding: 6px 10px; border-radius: 999px; }
+.tl-item.hoy .tl-tag { background: var(--red); color: white; }
+.tl-card h3 { font-family: var(--display); font-weight: 600; font-size: 1.12rem; letter-spacing: -0.01em; color: var(--navy); margin: 14px 0 8px; }
+.tl-card p { color: var(--muted); line-height: 1.7; margin: 0; font-size: 0.95rem; }
+@media (min-width: 900px) {
+  .timeline-track { left: 50%; margin-left: -1px; }
+  .timeline ol { gap: 0; }
+  .tl-item { padding-left: 0; width: 50%; }
+  .tl-item.left { padding-right: 56px; }
+  .tl-item.right { margin-left: 50%; padding-left: 56px; }
+  .tl-item.left .tl-dot { left: auto; right: -8px; }
+  .tl-item.right .tl-dot { left: -8px; }
+  .tl-item:not(:first-child) { margin-top: -60px; }
+}
+
+/* ---------- Calendario que rima ---------- */
+.holidays { background: white; color: var(--ink); }
+.hol-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .hol-grid { grid-template-columns: repeat(2, 1fr); } .hol-card { height: 320px; } }
+@media (min-width: 1000px) { .hol-grid { grid-template-columns: repeat(3, 1fr); } }
+.hol-card { position: relative; height: 280px; border: 0; padding: 0; background: none; text-align: left; perspective: 1200px; color: inherit; }
+.hol-inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.9s var(--ease); }
+.hol-card.flipped .hol-inner { transform: rotateY(180deg); }
+@media (hover: hover) { .hol-card:hover .hol-inner { transform: rotateY(180deg); } }
+.hol-card:focus-visible .hol-inner { transform: rotateY(180deg); }
+.hol-face { position: absolute; inset: 0; border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
+.hol-ru { background-color: var(--navy); color: white; background-image: radial-gradient(120% 90% at 100% 0%, rgba(0, 57, 166, 0.9), transparent 60%); }
+.hol-card:nth-child(3n + 2) .hol-ru { background-color: #0b2a63; }
+.hol-card:nth-child(3n) .hol-ru { background-color: #4a0f12; background-image: radial-gradient(120% 90% at 100% 0%, rgba(213, 43, 30, 0.85), transparent 60%); }
+.hol-date { font-family: var(--display); font-weight: 800; font-size: 1.9rem; letter-spacing: -0.03em; text-transform: uppercase; }
+.hol-cyr { font-family: var(--serif); font-style: italic; font-size: 1.25rem; color: #9fbcff; margin-top: 18px; }
+.hol-card:nth-child(3n) .hol-cyr { color: #ffb3ad; }
+.hol-ru strong { font-family: var(--display); font-weight: 600; font-size: 1.05rem; margin-top: 4px; }
+.hol-text { color: var(--muted-light); font-size: 0.9rem; line-height: 1.6; margin-top: 12px; }
+.hol-hint { margin-top: auto; display: inline-flex; align-items: center; gap: 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.7); }
+.hol-mx { transform: rotateY(180deg); background: var(--paper); border: 1px solid var(--line); justify-content: center; color: var(--ink); }
+.hol-flag { width: 46px; height: 30px; border-radius: 6px; background: linear-gradient(90deg, #006847 0 33%, #fff 33% 66%, #ce1126 66%); box-shadow: 0 0 0 1px var(--line); }
+.hol-mx-label { margin-top: 20px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); }
+.hol-mx-text { font-family: var(--display); font-weight: 600; font-size: 1.12rem; line-height: 1.35; letter-spacing: -0.01em; color: var(--navy); margin-top: 10px; }
+
+/* ---------- Cursos y becas ---------- */
+.courses { background: var(--navy); overflow: hidden; }
+.courses .wrap { position: relative; }
+.res-filters { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line-light); border-radius: 22px; width: fit-content; max-width: 100%; margin-bottom: 32px; }
+.res-filter { position: relative; border: 0; background: none; border-radius: 999px; padding: 11px 16px; font-size: 0.84rem; font-weight: 700; color: rgba(255, 255, 255, 0.75); transition: color 0.3s; }
+.res-filter.active { color: var(--navy); }
+.res-pill { position: absolute; inset: 0; border-radius: 999px; background: white; }
+.res-filter-text { position: relative; display: inline-flex; align-items: center; gap: 8px; }
+.res-filter em { font-style: normal; font-size: 0.7rem; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; display: inline-grid; place-items: center; background: rgba(255, 255, 255, 0.14); }
+.res-filter.active em { background: var(--red); color: white; }
+.res-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
+.res-card { position: relative; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line-light); border-radius: var(--radius); padding: 22px; color: white; transition: border-color 0.4s, background-color 0.4s; }
+.res-card::before { content: ""; position: absolute; left: 22px; right: 22px; top: 0; height: 3px; border-radius: 0 0 4px 4px; background: var(--blue-hi); }
+.res-card.becas::before { background: var(--red-hi); }
+.res-card.idioma::before { background: white; }
+.res-card.cultura::before { background: linear-gradient(90deg, #fff, var(--blue-hi), var(--red-hi)); }
+.res-card:hover { border-color: rgba(255, 255, 255, 0.32); background-color: rgba(255, 255, 255, 0.08); }
+.res-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.res-cat { display: inline-flex; align-items: center; gap: 7px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #9fbcff; }
+.res-card.becas .res-cat { color: #ff8d84; }
+.res-access { font-size: 0.7rem; font-weight: 800; padding: 5px 10px; border-radius: 999px; background: rgba(95, 224, 165, 0.16); color: #7ef0bd; white-space: nowrap; }
+.res-access.reg { background: rgba(255, 255, 255, 0.12); color: rgba(255, 255, 255, 0.85); }
+.res-card h3 { font-family: var(--display); font-weight: 600; font-size: 1.15rem; letter-spacing: -0.01em; line-height: 1.25; margin: 18px 0 0; }
+.res-original { font-family: var(--serif); font-style: italic; color: #9fbcff; margin-top: 4px; }
+.res-org { color: var(--muted-light); font-size: 0.8rem; margin-top: 6px; }
+.res-desc { color: rgba(232, 238, 255, 0.82); font-size: 0.9rem; line-height: 1.65; margin: 14px 0 0; }
+.res-note { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8rem; line-height: 1.5; color: #ffd28a; background: rgba(255, 210, 138, 0.08); border: 1px solid rgba(255, 210, 138, 0.2); border-radius: 12px; padding: 10px 12px; margin: 14px 0 0; }
+.res-note svg { flex: none; margin-top: 2px; }
+.res-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.res-meta span { font-size: 0.72rem; font-weight: 600; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line-light); color: rgba(255, 255, 255, 0.75); }
+.res-link { margin-top: auto; padding-top: 18px; display: inline-flex; align-items: center; gap: 6px; color: white; font-weight: 800; font-size: 0.88rem; text-decoration: none; width: fit-content; }
+.res-link svg { transition: transform 0.35s var(--ease); }
+.res-link:hover { color: #ff8d84; }
+.res-link:hover svg { transform: translate(3px, -3px); }
+.res-disclaimer { display: flex; gap: 10px; align-items: flex-start; margin: 32px 0 0; color: var(--muted-light); font-size: 0.82rem; line-height: 1.6; max-width: 760px; }
+.res-disclaimer svg { flex: none; margin-top: 3px; }
+@media (max-width: 640px) {
+  .res-filters { border-radius: 18px; }
+  .res-filter { padding: 9px 12px; font-size: 0.78rem; }
+}
+
+/* ---------- Enlace de «Aprende ruso» a los cursos ---------- */
+.learn-more { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 12px 18px; border-radius: 999px; background: var(--navy); color: white; font-weight: 700; font-size: 0.88rem; text-decoration: none; transition: background-color 0.3s, transform 0.4s var(--ease); }
+.learn-more:hover { background: var(--red); transform: translateY(-2px); }
+.learn-more svg { animation: bob 2.4s var(--ease) infinite; }
+
+/* ---------- Preguntas frecuentes ---------- */
+.faq { background: white; color: var(--ink); }
+.faq-grid { display: grid; gap: 40px; }
+@media (min-width: 960px) {
+  .faq-grid { grid-template-columns: 0.9fr 1.1fr; gap: 72px; align-items: start; }
+  .faq-intro { position: sticky; top: 110px; }
+}
+.faq-list { display: grid; gap: 10px; }
+.faq-item { border: 1px solid var(--line); border-radius: 18px; background: var(--paper); transition: background-color 0.4s, border-color 0.4s, box-shadow 0.4s; }
+.faq-item.open { background: white; border-color: rgba(0, 57, 166, 0.3); box-shadow: 0 30px 60px -45px rgba(10, 31, 68, 0.5); }
+.faq-q { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; text-align: left; background: none; border: 0; padding: 20px 22px; font-family: var(--display); font-weight: 600; font-size: 1rem; color: var(--navy); }
+.faq-q svg { flex: none; transition: transform 0.45s var(--ease), color 0.3s; color: var(--muted); }
+.faq-item.open .faq-q svg { transform: rotate(180deg); color: var(--red); }
+.faq-a { overflow: hidden; }
+.faq-a p { margin: 0; padding: 0 22px 20px; color: var(--muted); line-height: 1.75; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hol-inner, .timeline-line { transition: none !important; }
+}

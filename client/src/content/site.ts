@@ -127,6 +127,7 @@ export const navItems: [string, string][] = [
   ["#ciencia", "Ciencia"],
   ["#cultura", "Cultura"],
   ["#aprende", "Aprende ruso"],
+  ["#cursos", "Cursos y becas"],
   ["#contacto", "Contacto"],
 ];
 
