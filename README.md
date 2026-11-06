@@ -52,9 +52,9 @@ Versión estática publicada en **https://jair1119.github.io/druzhba-nuevo-leon/
 pnpm build:pages   # recompila docs/ con vite.pages.config.ts
 ```
 
-En la versión estática no hay base de datos: los formularios se envían a
-`VITE_FORM_ENDPOINT` (por ejemplo, un formulario de Formspree) si se define en `.env`
-antes de compilar; si no, avisan que el registro abrirá pronto.
+En la versión estática no hay base de datos: los formularios (comunidad, boletín y
+contacto) se envían a Formspree (`https://formspree.io/f/mrppdwge`), que los reenvía por
+correo. Para usar otro formulario, define `VITE_FORM_ENDPOINT` antes de compilar.
 
 ## Estructura
 

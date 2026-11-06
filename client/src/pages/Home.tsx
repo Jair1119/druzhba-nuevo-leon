@@ -43,7 +43,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { FORMS_ENABLED, useSiteForms } from "@/lib/forms";
+import { FORMS_ENABLED, STATIC_SITE, useSiteForms } from "@/lib/forms";
 import { quickFacts, scienceAreas } from "@/content/ciencia";
 import { mediaCredits } from "@/content/credits";
 import {
@@ -1944,6 +1944,8 @@ export default function Home() {
                     responder tus mensajes, avisarte de actividades y conocer
                     qué temas interesan a la comunidad. No vendemos ni
                     compartimos tus datos con terceros.
+                    {STATIC_SITE &&
+                      " Los formularios se procesan a través de Formspree, un servicio que únicamente nos hace llegar tus respuestas por correo."}
                   </p>
                   <p>
                     Puedes pedir en cualquier momento que corrijamos o

@@ -11,6 +11,9 @@ import { defineConfig, type Plugin } from "vite";
 
 const BASE = process.env.PAGES_BASE ?? "/druzhba-nuevo-leon/";
 
+// Formulario de Formspree que reenvía los registros por correo (público, no es secreto).
+const FORM_ENDPOINT = process.env.VITE_FORM_ENDPOINT ?? "https://formspree.io/f/mrppdwge";
+
 // Quita el script de configuración de la plataforma Manus, que aquí no existe.
 const stripPlatformScript: Plugin = {
   name: "strip-platform-script",
@@ -24,6 +27,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), stripPlatformScript],
   define: {
     "import.meta.env.VITE_STATIC": JSON.stringify("1"),
+    "import.meta.env.VITE_FORM_ENDPOINT": JSON.stringify(FORM_ENDPOINT),
   },
   resolve: {
     alias: {

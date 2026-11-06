@@ -14,12 +14,22 @@ export const STATIC_SITE = import.meta.env.VITE_STATIC === "1";
 const FORM_ENDPOINT = (import.meta.env.VITE_FORM_ENDPOINT as string | undefined) ?? "";
 export const FORMS_ENABLED = !STATIC_SITE || FORM_ENDPOINT.length > 0;
 
+const SUBJECTS: Record<string, string> = {
+  comunidad: "Druzhba · Nuevo registro en la comunidad",
+  boletin: "Druzhba · Nueva suscripción al boletín",
+  contacto: "Druzhba · Nuevo mensaje de contacto",
+};
+
 async function postForm(kind: string, data: Record<string, unknown>) {
   if (!FORM_ENDPOINT) throw new Error("FORMS_NOT_CONFIGURED");
+  // Formspree: los arreglos se envían como texto y `_subject` titula el correo.
+  const fields = Object.fromEntries(
+    Object.entries(data).map(([k, v]) => [k, Array.isArray(v) ? v.join(", ") || "—" : v]),
+  );
   const res = await fetch(FORM_ENDPOINT, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({ formulario: kind, ...data }),
+    body: JSON.stringify({ formulario: kind, _subject: SUBJECTS[kind] ?? "Druzhba · Formulario", ...fields }),
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return { success: true } as const;
