@@ -24,6 +24,32 @@ export function Mascot() {
   const [hat, setHat] = useState<Hat>("sombrero");
   const [bubble, setBubble] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  // Cambio de sombrero con su propio reloj: cada 8 s, camine o no.
+  const [swapPose, setSwapPose] = useState<Pose | null>(null);
+  useEffect(() => {
+    let alive = true;
+    let current: Hat = "sombrero";
+    const id = window.setInterval(async () => {
+      if (document.hidden) return;
+      setSwapPose("tip");
+      await wait(600);
+      if (!alive) return;
+      current = current === "sombrero" ? "ushanka" : "sombrero";
+      setHat(current);
+      await wait(450);
+      if (!alive) return;
+      setSwapPose("wave");
+      setBubble(current === "ushanka" ? "Привет! 🇷🇺" : "¡Quiubo, raza! 🇲🇽");
+      await wait(1800);
+      if (!alive) return;
+      setBubble(null);
+      setSwapPose(null);
+    }, 8000);
+    return () => {
+      alive = false;
+      window.clearInterval(id);
+    };
+  }, []);
   const openRef = useRef(open);
   openRef.current = open;
   const idle = useIdle();
@@ -83,7 +109,7 @@ export function Mascot() {
           // En pausa no camina (ahorra CPU), pero cada ~8 s cambia de sombrero en su lugar.
           setPose("stand");
           idleTicks++;
-          if (idleTicks % 16 === 0) await swapHat();
+          if (idleTicks % 16 === 0) await wait(500);
           else await wait(500);
           continue;
         }
@@ -103,7 +129,7 @@ export function Mascot() {
           await wait(3200);
           setBubble(null);
         } else if (steps % 2 === 0) {
-          await swapHat();
+          await wait(500);
         } else {
           await wait(3000 + Math.random() * 4000);
         }
@@ -147,7 +173,7 @@ export function Mascot() {
           data-cursor="¡Pícale!"
         >
           <span className="mascot-flip" style={{ transform: `scaleX(${dir})` }}>
-            <BetoFigure hat={hat} pose={open ? "wave" : pose} />
+            <BetoFigure hat={hat} pose={open ? "wave" : (swapPose ?? pose)} />
           </span>
         </button>
       </motion.div>

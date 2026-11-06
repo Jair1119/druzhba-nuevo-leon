@@ -317,8 +317,9 @@ function Hero({ ready }: { ready: boolean }) {
   const mediaScale = useTransform(scrollYProgress, [0, 1], [1, 1.25]);
 
 
-  const mx = clipById("macroplaza");
-  const ru = clipById("moscow");
+  // Portada: Cerro de la Silla (Nuevo León) y el Kremlin (Rusia), con movimiento de cámara lento.
+  const mx = { poster: img("nl-silla"), local: `${import.meta.env.BASE_URL}media/video/silla.mp4` } as Clip;
+  const ru = { poster: img("ru-kremlin"), local: `${import.meta.env.BASE_URL}media/video/kremlin.mp4` } as Clip;
 
   return (
     <section
@@ -343,7 +344,7 @@ function Hero({ ready }: { ready: boolean }) {
             className="hero-video"
             poster={toWebp(mx.poster, 1600)}
             sources={videoSources(mx)}
-            alt="Video de la Macroplaza de Monterrey"
+            alt="El Cerro de la Silla, Monterrey"
           />
           <div className="hero-tint mx" />
         </div>
@@ -355,7 +356,7 @@ function Hero({ ready }: { ready: boolean }) {
             className="hero-video"
             poster={toWebp(ru.poster, 1600)}
             sources={videoSources(ru)}
-            alt="Video aéreo de Moscú"
+            alt="El Kremlin de Moscú de noche"
           />
           <div className="hero-tint ru" />
           </motion.div>
