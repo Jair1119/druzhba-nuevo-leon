@@ -516,7 +516,7 @@ function Bridge() {
             <Label light>El puente</Label>
             <SplitReveal
               className="display light"
-              text="De la Sierra Madre al Kremlin."
+              text="Del Cerro de la Silla al Kremlin."
             />
             <Reveal delay={0.2}>
               <p className="lede light">
