@@ -40,3 +40,14 @@
   content-visibility: auto;
   contain-intrinsic-size: auto 1100px;
 }
+
+/* 7. Modo ligero (automático en equipos que no logran animación fluida). */
+.lite .grain { display: none; }
+.lite .rhyme-img img, .lite .clip-video, .lite .article-image img { transition: none; }
+
+.lite-toggle { display: inline-flex; align-items: center; gap: 8px; background: none; border: 1px solid var(--line-light); color: rgba(255, 255, 255, 0.8); border-radius: 999px; padding: 6px 12px; font-size: 0.78rem; font-weight: 600; }
+.lite-toggle:hover { border-color: rgba(255, 255, 255, 0.5); color: white; }
+.lite-toggle i { width: 28px; height: 16px; border-radius: 999px; background: rgba(255, 255, 255, 0.2); position: relative; transition: background-color 0.3s; }
+.lite-toggle i::after { content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: white; transition: transform 0.3s var(--ease); }
+.lite-toggle[aria-pressed="true"] i { background: #1fa971; }
+.lite-toggle[aria-pressed="true"] i::after { transform: translateX(12px); }

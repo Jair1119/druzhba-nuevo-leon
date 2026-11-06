@@ -46,6 +46,16 @@ import {
 import { FORMS_ENABLED, STATIC_SITE, useSiteForms } from "@/lib/forms";
 import { Courses, Faq, History, Holidays } from "@/components/druzhba/sections";
 import { Mascot } from "@/components/druzhba/Mascot";
+import { setLite, useLite } from "@/lib/perfMode";
+
+function LiteToggle() {
+  const lite = useLite();
+  return (
+    <button type="button" className="lite-toggle" aria-pressed={lite} onClick={() => setLite(!lite)} title="Apaga los efectos más pesados si tu equipo va lento">
+      <i aria-hidden="true" /> Modo ligero
+    </button>
+  );
+}
 import { quickFacts, scienceAreas } from "@/content/ciencia";
 import { mediaCredits } from "@/content/credits";
 import {
@@ -472,8 +482,6 @@ function Bridge() {
   const km = useTransform(draw, v =>
     Math.round(v * 10123).toLocaleString("es-MX")
   );
-  const [kmText, setKmText] = useState("0");
-  useMotionValueEvent(km, "change", setKmText);
   useMotionValueEvent(draw, "change", v => {
     const path = pathRef.current;
     if (!path) return;
@@ -582,7 +590,8 @@ function Bridge() {
               </g>
             </svg>
             <div className="bridge-km" aria-live="off">
-              <strong>{kmText}</strong>
+              {/* El número se actualiza sin volver a dibujar todo el componente. */}
+              <motion.strong>{km}</motion.strong>
               <span>km en línea recta</span>
             </div>
           </div>
@@ -1751,6 +1760,7 @@ export default function Home() {
                   <a href="#calendario">Calendario que rima</a>
                   <a href="#aprende">Aprende ruso</a>
                   <a href="#cursos">Cursos y becas gratis</a>
+                  <a href={`${import.meta.env.BASE_URL}recursos.html`}>Directorio de recursos</a>
                 </div>
               </div>
               <div>
@@ -1788,6 +1798,7 @@ export default function Home() {
                 Druzhba Nuevo León — Proyecto cultural independiente, sin
                 afiliación gubernamental.
               </span>
+              <LiteToggle />
               <a href="#inicio">Volver arriba ↑</a>
             </div>
           </div>

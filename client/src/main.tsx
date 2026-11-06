@@ -10,6 +10,10 @@ import "./index.css";
 import "./sections.css";
 import "./mascot.css";
 import "./perf.css";
+import "./directory.css";
+import { initPerfMode } from "./lib/perfMode";
+
+initPerfMode();
 
 const queryClient = new QueryClient();
 

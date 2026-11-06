@@ -104,7 +104,19 @@ type Entry = { keys: string[]; answer: BotAnswer | (() => BotAnswer) };
 
 const GENERIC = new Set(["rusia", "rusa", "ruso", "nuevo leon", "monterrey", "mexico", "regia"]);
 
+const DIRECTORY = `${import.meta.env.BASE_URL}recursos.html`;
+
 const kb: Entry[] = [
+  {
+    keys: ["directorio", "recursos", "fuentes", "fuentes de informacion", "noticias", "medios", "periodicos", "informacion confiable", "educacion gratuita", "universidades abiertas", "cursos gratis"],
+    answer: {
+      text: "En el Directorio Druzhba reunimos y verificamos educación gratuita de instituciones rusas (becas, cursos de ruso, clases de la Universidad de Moscú, Stepik, bibliotecas, museos) y fuentes de información: la Embajada de Rusia en México, la Academia de Ciencias, la Sociedad Geográfica y varios medios de noticias, indicando quién los financia para que compares con criterio.",
+      links: [
+        { label: "Abrir el directorio", href: DIRECTORY },
+        { label: "Fuentes de información", href: `${DIRECTORY}#informacion` },
+      ],
+    },
+  },
   {
     keys: ["hola", "buenas", "quiubo", "que onda", "saludos", "hey", "privet", "привет"],
     answer: {
@@ -169,6 +181,7 @@ const kb: Entry[] = [
         { label: "Becas del Gobierno de Rusia", href: "https://education-in-russia.com/" },
         { label: "Open Doors", href: "https://od.globaluni.ru/" },
         { label: "Estudiar en Rusia (español)", href: "https://studyinrussia.ru/es/" },
+        { label: "Directorio completo", href: DIRECTORY },
       ],
       suggestions: ["Cursos de ruso gratis", "¿Necesito visa para Rusia?"],
     },
@@ -179,7 +192,7 @@ const kb: Entry[] = [
       text: "Para aprender ruso gratis o con registro: el portal del Instituto Pushkin (prueba de nivel y cursos A1–C2, con interfaz en español); clases universitarias en Educación Abierta y Lektorium; y cine con subtítulos en el canal oficial de Mosfilm. Abajo en la página tienes la lista completa con filtros.",
       links: [
         { label: "Instituto Pushkin", href: "https://pushkininstitute.ru/" },
-        { label: "Ver todos los cursos", href: "#cursos" },
+        { label: "Directorio de cursos gratis", href: `${DIRECTORY}#idioma` },
       ],
       suggestions: ["Frases básicas en ruso", "¿Cuántas letras tiene el alfabeto ruso?"],
     },

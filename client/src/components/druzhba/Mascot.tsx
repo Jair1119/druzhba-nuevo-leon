@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { answer, starterSuggestions, type BotAnswer } from "@/content/chatbot";
 import { BetoFigure, type Hat } from "./Beto";
 import { EASE } from "./fx";
+import { useLite } from "@/lib/perfMode";
 
 type Pose = "walk" | "stand" | "tip" | "wave";
 type Msg = { from: "bot" | "user"; text: string; links?: BotAnswer["links"]; suggestions?: string[] };
@@ -16,7 +17,8 @@ const W = 96; // ancho del personaje en px
 /* ------------------------------------------------------------------ */
 
 export function Mascot() {
-  const reduce = useReducedMotion();
+  const lite = useLite();
+  const reduce = useReducedMotion() || lite;
   const x = useMotionValue(-W);
   const [dir, setDir] = useState<1 | -1>(1);
   const [pose, setPose] = useState<Pose>("walk");

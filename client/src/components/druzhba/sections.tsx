@@ -1,5 +1,6 @@
-import { AnimatePresence, LayoutGroup, motion, useScroll, useSpring } from "framer-motion";
-import { ArrowUpRight, ChevronDown, Film, GraduationCap, Info, Landmark, Languages, RotateCcw } from "lucide-react";
+import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
+import { ArrowUpRight, ChevronDown, Info, RotateCcw } from "lucide-react";
+import { ResourceCard, catIcon, disclaimer } from "./ResourceCard";
 import { useRef, useState } from "react";
 import {
   faqs,
@@ -144,22 +145,10 @@ export function Holidays() {
 /* Cursos, becas y cultura gratuitos                                    */
 /* ------------------------------------------------------------------ */
 
-const catIcon: Record<ResourceCategory, typeof Film> = {
-  becas: GraduationCap,
-  idioma: Languages,
-  universidades: Landmark,
-  cultura: Film,
-};
-const catShort: Record<ResourceCategory, string> = {
-  becas: "Beca",
-  idioma: "Idioma",
-  universidades: "Universidad abierta",
-  cultura: "Cultura",
-};
+export const DIRECTORY_URL = `${import.meta.env.BASE_URL}recursos.html`;
 
 export function Courses() {
-  const [cat, setCat] = useState<ResourceCategory | "todos">("todos");
-  const list = cat === "todos" ? resources : resources.filter(r => r.category === cat);
+  const featured = resources.filter(r => r.featured);
   return (
     <section className="courses section" id="cursos">
       <div className="orb orb-blue" aria-hidden="true" />
@@ -172,96 +161,42 @@ export function Courses() {
           </div>
           <Reveal delay={0.15}>
             <p className="lede light">
-              Reunimos recursos gratuitos de instituciones rusas: becas para estudiar en Rusia, cursos de idioma, clases
-              universitarias abiertas, cine clásico y museos en línea.
+              Somos tu puente: reunimos y verificamos educación gratuita en línea de instituciones rusas y fuentes de
+              información confiables. Estos son algunos destacados; en el directorio están todos, con buscador.
             </p>
           </Reveal>
         </div>
 
-        <LayoutGroup id="recursos">
-          <div className="res-filters" role="group" aria-label="Filtrar recursos por tipo">
-            {resourceCategories.map(c => {
-              const active = c.id === cat;
-              const n = c.id === "todos" ? resources.length : resources.filter(r => r.category === c.id).length;
+        <div className="res-cats">
+          {resourceCategories
+            .filter(c => c.id !== "todos")
+            .map(c => {
+              const Icon = catIcon[c.id as ResourceCategory];
+              const n = resources.filter(r => r.category === c.id).length;
               return (
-                <button
-                  key={c.id}
-                  type="button"
-                  aria-pressed={active}
-                  className={`res-filter ${active ? "active" : ""}`}
-                  onClick={() => setCat(c.id)}
-                >
-                  {active && (
-                    <motion.span
-                      layoutId="res-pill"
-                      className="res-pill"
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                    />
-                  )}
-                  <span className="res-filter-text">
-                    {c.label} <em>{n}</em>
-                  </span>
-                </button>
+                <a key={c.id} className="res-cat-link" href={`${DIRECTORY_URL}#${c.id}`}>
+                  <Icon size={18} />
+                  <span>{c.label}</span>
+                  <em>{n}</em>
+                </a>
               );
             })}
-          </div>
+        </div>
 
-          <motion.div layout className="res-grid">
-            <AnimatePresence mode="popLayout" initial={false}>
-              {list.map(r => {
-                const Icon = catIcon[r.category];
-                return (
-                  <motion.article
-                    layout
-                    key={r.id}
-                    className={`res-card ${r.category}`}
-                    initial={{ opacity: 0, scale: 0.94, y: 24 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.94 }}
-                    transition={{ duration: 0.45, ease: EASE }}
-                  >
-                    <div className="res-top">
-                      <span className="res-cat">
-                        <Icon size={15} /> {catShort[r.category]}
-                      </span>
-                      <span className={`res-access ${r.access === "Con registro" ? "reg" : ""}`}>{r.access}</span>
-                    </div>
-                    <h3>{r.title}</h3>
-                    {r.original && (
-                      <span className="res-original" lang={/[а-яё]/i.test(r.original) ? "ru" : undefined}>
-                        {r.original}
-                      </span>
-                    )}
-                    <span className="res-org">{r.org}</span>
-                    <p className="res-desc">{r.description}</p>
-                    {r.note && (
-                      <p className="res-note">
-                        <Info size={14} /> <span>{r.note}</span>
-                      </p>
-                    )}
-                    <div className="res-meta">
-                      <span>{r.language}</span>
-                      {r.level && <span>{r.level}</span>}
-                    </div>
-                    <a
-                      className="res-link"
-                      href={r.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${r.title}: abrir el sitio en una pestaña nueva`}
-                    >
-                      Visitar sitio <ArrowUpRight size={15} />
-                    </a>
-                  </motion.article>
-                );
-              })}
-            </AnimatePresence>
-          </motion.div>
-        </LayoutGroup>
+        <div className="res-grid">
+          {featured.map(r => (
+            <ResourceCard key={r.id} r={r} />
+          ))}
+        </div>
+
+        <div className="res-cta">
+          <a className="btn btn-red" href={DIRECTORY_URL}>
+            Ver el directorio completo ({resources.length} recursos) <ArrowUpRight size={16} />
+          </a>
+        </div>
 
         <p className="res-disclaimer">
-          <Info size={15} /> Druzhba Nuevo León no está afiliado a estas instituciones. Revisamos cada enlace en noviembre
-          de 2026; requisitos, costos y fechas pueden cambiar, así que confirma siempre en el sitio oficial.
+          <Info size={15} /> {disclaimer}
         </p>
       </div>
     </section>

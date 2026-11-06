@@ -20,6 +20,7 @@ import {
   type CSSProperties,
   type ElementType,
 } from "react";
+import { useLite } from "@/lib/perfMode";
 
 export const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -313,11 +314,12 @@ export function VelocityMarquee({
   const skew = useTransform(smooth, [-3000, 0, 3000], [-8, 0, 8]);
   const x = useTransform(baseX, v => `${wrap(-50, 0, v)}%`);
   const dir = useRef(1);
+  const lite = useLite();
   // Solo se mueve cuando está en pantalla.
   const boxRef = useRef<HTMLDivElement>(null);
   const onScreen = useInView(boxRef);
   useAnimationFrame((_, delta) => {
-    if (reduce || !onScreen) return;
+    if (reduce || lite || !onScreen) return;
     let move = dir.current * baseVelocity * (delta / 1000);
     const f = factor.get();
     if (f < 0) dir.current = -1;
@@ -339,7 +341,8 @@ export function VelocityMarquee({
 
 export function Cursor() {
   const fine = useMedia("(pointer: fine)");
-  const reduce = useReducedMotion();
+  const lite = useLite();
+  const reduce = useReducedMotion() || lite;
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
   const sx = useSpring(x, { stiffness: 500, damping: 40, mass: 0.5 });
@@ -568,8 +571,10 @@ export function LazyVideo({
   // El póster se descarga solo cuando el video está cerca de la pantalla.
   const near = useInView(ref, { margin: "800px 0px 800px 0px", once: true });
   const [hovered, setHovered] = useState(false);
+  const lite = useLite();
   const hoverMode = hoverPlay && fine;
-  const wantPlay = hoverMode ? hovered : hoverPlay ? visible : inView;
+  // En modo ligero solo se reproduce lo que la persona pide (al pasar el cursor).
+  const wantPlay = hoverMode ? hovered : lite ? false : hoverPlay ? visible : inView;
   const [armed, setArmed] = useState(eager);
 
   useEffect(() => {

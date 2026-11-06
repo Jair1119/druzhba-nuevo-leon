@@ -47,7 +47,7 @@ const pagesHtml: Plugin = {
     this.emitFile({
       type: "asset",
       fileName: "sitemap.xml",
-      source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${SITE_URL}</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>\n</urlset>\n`,
+      source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${SITE_URL}</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>\n  <url><loc>${SITE_URL}recursos.html</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>\n</urlset>\n`,
     });
     this.emitFile({ type: "asset", fileName: ".nojekyll", source: "" });
   },
@@ -74,6 +74,11 @@ export default defineConfig({
     outDir: path.resolve(import.meta.dirname, "docs"),
     emptyOutDir: true,
     rollupOptions: {
+      // Dos páginas: la principal y el directorio de recursos (más ligero).
+      input: {
+        main: path.resolve(import.meta.dirname, "client", "index.html"),
+        recursos: path.resolve(import.meta.dirname, "client", "recursos.html"),
+      },
       output: {
         // Librerías en archivos aparte: cambian poco y el navegador las conserva en caché.
         manualChunks: {

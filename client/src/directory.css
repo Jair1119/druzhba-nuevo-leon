@@ -1,0 +1,47 @@
+/* ==================================================================
+   Directorio de recursos (página ligera, sin videos ni animaciones pesadas)
+   ================================================================== */
+
+.dir { min-height: 100vh; background: var(--navy); background-image: radial-gradient(70% 40% at 100% 0%, rgba(0, 57, 166, 0.55), transparent 70%), radial-gradient(50% 30% at 0% 30%, rgba(213, 43, 30, 0.18), transparent 70%); background-repeat: no-repeat; color: white; }
+.dir-bar { position: sticky; top: 0; z-index: 20; background: rgba(5, 12, 29, 0.94); border-bottom: 1px solid var(--line-light); }
+.dir-bar-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
+.dir-back { display: inline-flex; align-items: center; gap: 8px; color: rgba(255, 255, 255, 0.85); text-decoration: none; font-size: 0.86rem; font-weight: 700; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line-light); }
+.dir-back:hover { background: white; color: var(--navy); }
+.dir-main { padding: 48px 0 64px; }
+.dir-intro { max-width: 760px; }
+.dir-intro h1 { font-family: var(--display); font-weight: 600; font-size: clamp(2rem, 4.6vw, 3.6rem); line-height: 1.05; letter-spacing: -0.035em; margin: 16px 0 0; }
+.dir-intro p { color: var(--muted-light); font-size: 1.05rem; line-height: 1.7; margin: 18px 0 0; }
+.dir-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 36px 0 16px; }
+.dir-search { flex: 1 1 320px; display: flex; align-items: center; gap: 10px; padding: 0 16px; height: 52px; border-radius: 999px; background: white; color: var(--navy); }
+.dir-search input { flex: 1; min-width: 0; border: 0; outline: none; background: none; font-size: 1rem; color: var(--ink); height: 100%; }
+.dir-search input::-webkit-search-cancel-button { display: none; }
+.dir-search button { border: 0; background: var(--paper); color: var(--navy); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; }
+.dir-search:focus-within { box-shadow: 0 0 0 4px rgba(255, 141, 132, 0.45); }
+.dir-free { height: 52px; padding: 0 18px; }
+.dir-filters { margin-bottom: 14px; }
+.dir-filters .res-filter-text { gap: 7px; }
+.dir-count { color: var(--muted-light); font-size: 0.85rem; margin: 6px 0 16px; }
+.dir-empty { text-align: center; padding: 48px 16px; border: 1px dashed var(--line-light); border-radius: var(--radius); }
+.dir-empty p { color: var(--muted-light); margin: 0 0 18px; }
+.dir-legend { margin-top: 44px; padding: 24px; border-radius: var(--radius); background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line-light); }
+.dir-legend h2 { font-family: var(--display); font-size: 1.1rem; font-weight: 600; margin: 0 0 12px; }
+.dir-legend ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: rgba(232, 238, 255, 0.85); font-size: 0.9rem; }
+.dir-legend p { color: var(--muted-light); font-size: 0.86rem; margin: 14px 0 0; }
+.dir-suggest { margin: 16px 0 0; color: var(--muted-light); font-size: 0.9rem; }
+.dir-suggest a { color: #ff8d84; font-weight: 700; }
+.dir-foot { border-top: 1px solid var(--line-light); padding: 24px 0; color: var(--muted-light); font-size: 0.82rem; }
+
+/* Accesos por categoría en la página principal */
+.res-cats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+.res-cat-link { display: inline-flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 16px; border: 1px solid var(--line-light); background: rgba(255, 255, 255, 0.05); color: white; text-decoration: none; font-weight: 700; font-size: 0.88rem; transition: background-color 0.3s, border-color 0.3s; }
+.res-cat-link:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.35); }
+.res-cat-link svg { color: #9fbcff; }
+.res-cat-link em { font-style: normal; font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: var(--red); }
+.res-cta { display: flex; justify-content: center; margin-top: 32px; }
+.dir-back-short { display: none; }
+@media (max-width: 640px) {
+  .dir-back { padding: 8px 12px; font-size: 0.82rem; white-space: nowrap; }
+  .dir-back-long { display: none; }
+  .dir-back-short { display: inline; }
+  .dir-main { padding-top: 32px; }
+}

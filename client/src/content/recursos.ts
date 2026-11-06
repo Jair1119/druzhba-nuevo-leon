@@ -1,6 +1,6 @@
 /* Recursos, historia y calendario. Enlaces y datos verificados en noviembre de 2026. */
 
-export type ResourceCategory = "becas" | "idioma" | "universidades" | "cultura";
+export type ResourceCategory = "becas" | "idioma" | "universidades" | "cultura" | "informacion";
 
 export type Resource = {
   id: string;
@@ -11,7 +11,9 @@ export type Resource = {
   description: string;
   note?: string;
   url: string;
-  access: "Gratis" | "Materiales gratis" | "Con registro";
+  access: "Gratis" | "Materiales gratis" | "Con registro" | "Mixto" | "Acceso libre";
+  /** Se muestra en la sección principal además del directorio. */
+  featured?: boolean;
   language: string;
   level?: string;
 };
@@ -22,11 +24,13 @@ export const resourceCategories: { id: ResourceCategory | "todos"; label: string
   { id: "idioma", label: "Idioma ruso" },
   { id: "universidades", label: "Universidades abiertas" },
   { id: "cultura", label: "Cultura en línea" },
+  { id: "informacion", label: "Fuentes de información" },
 ];
 
 export const resources: Resource[] = [
   {
     id: "cuota",
+    featured: true,
     category: "becas",
     title: "Becas del Gobierno de Rusia (cuota)",
     org: "Sitio oficial de selección de extranjeros",
@@ -40,6 +44,7 @@ export const resources: Resource[] = [
   },
   {
     id: "open-doors",
+    featured: true,
     category: "becas",
     title: "Open Doors: Russian Scholarship Project",
     org: "Asociación Global Universities · 24 universidades",
@@ -53,6 +58,7 @@ export const resources: Resource[] = [
   },
   {
     id: "study-in-russia",
+    featured: true,
     category: "becas",
     title: "Estudiar en Rusia",
     original: "Study in Russia",
@@ -65,6 +71,7 @@ export const resources: Resource[] = [
   },
   {
     id: "pushkin",
+    featured: true,
     category: "idioma",
     title: "Educación en ruso",
     original: "Образование на русском",
@@ -78,6 +85,7 @@ export const resources: Resource[] = [
   },
   {
     id: "openedu",
+    featured: true,
     category: "universidades",
     title: "Educación Abierta",
     original: "Открытое образование",
@@ -103,6 +111,7 @@ export const resources: Resource[] = [
   },
   {
     id: "mosfilm",
+    featured: true,
     category: "cultura",
     title: "Mosfilm: cine clásico gratis",
     org: "Canal oficial del estudio Mosfilm",
@@ -136,6 +145,227 @@ export const resources: Resource[] = [
     access: "Gratis",
     language: "Ruso · inglés",
   },
+  /* ---------- Idioma ruso ---------- */
+  {
+    id: "spbu-curso",
+    category: "idioma",
+    title: "Curso gratuito de ruso en línea",
+    org: "Universidad Estatal de San Petersburgo",
+    description:
+      "64 lecciones para empezar a comunicarte en ruso, con versiones para hablantes de inglés, chino, turco, uzbeko y tayiko. También sirve para repasar gramática si ya entiendes algo.",
+    url: "https://migrant.spbu.ru/en",
+    access: "Gratis",
+    language: "Explicaciones en inglés",
+    level: "Principiante",
+  },
+  {
+    id: "tpu-stepik",
+    category: "idioma",
+    title: "Ruso. Nivel elemental",
+    original: "Русский язык. Элементарный уровень",
+    org: "Universidad Politécnica de Tomsk · Stepik",
+    description:
+      "Curso A1 desde cero con videos, ejercicios interactivos, simuladores y diccionarios. Al terminar se obtiene un certificado de la universidad y de Stepik.",
+    url: "https://stepik.org/course/89394/info",
+    access: "Gratis",
+    language: "Ruso",
+    level: "A1",
+  },
+  {
+    id: "corpus",
+    category: "idioma",
+    title: "Corpus Nacional de la Lengua Rusa",
+    original: "Национальный корпус русского языка",
+    org: "Herramienta lingüística de referencia",
+    description:
+      "Millones de textos reales para ver cómo se usa de verdad una palabra o una construcción. Ideal para niveles intermedio y avanzado, traductores y docentes.",
+    url: "https://ruscorpora.ru/",
+    access: "Acceso libre",
+    language: "Ruso · inglés",
+    level: "B1 en adelante",
+  },
+
+  /* ---------- Universidades y ciencia abiertas ---------- */
+  {
+    id: "teach-in",
+    category: "universidades",
+    title: "Teach-in: clases de la Universidad de Moscú",
+    org: "Universidad Estatal de Moscú (MGU)",
+    description:
+      "Video clases abiertas de cursos reales de la MGU: física, matemáticas, astronomía, biología, informática, geografía, mecánica y filosofía, sin exámenes de admisión ni límite de edad.",
+    url: "https://teach-in.ru/",
+    access: "Gratis",
+    language: "Ruso",
+  },
+  {
+    id: "stepik",
+    category: "universidades",
+    title: "Stepik",
+    org: "Plataforma rusa de cursos en línea",
+    description:
+      "Miles de cursos de programación, matemáticas, idiomas y ciencia. En el catálogo puedes filtrar solo los cursos gratuitos.",
+    note: "Hay cursos gratuitos y de pago: usa el filtro «Бесплатные».",
+    url: "https://stepik.org/catalog",
+    access: "Materiales gratis",
+    language: "Ruso · inglés",
+  },
+  {
+    id: "intuit",
+    category: "universidades",
+    title: "INTUIT",
+    original: "ИНТУИТ",
+    org: "Universidad por internet (desde 2003)",
+    description:
+      "Programas de informática, matemáticas, ciencias, negocios, humanidades, idiomas y salud, con una sección de programas gratuitos.",
+    note: "Estudiar los programas gratuitos no cuesta; el certificado sí tiene costo.",
+    url: "https://intuit.ru/",
+    access: "Materiales gratis",
+    language: "Ruso",
+  },
+  {
+    id: "postnauka",
+    category: "universidades",
+    title: "PostNauka",
+    original: "ПостНаука",
+    org: "Divulgación científica",
+    description:
+      "Videos, artículos y cursos de científicos sobre astronomía, biología, cerebro, química, economía, medicina, física, matemáticas y filosofía.",
+    note: "Gran parte del contenido es abierto; algunos cursos requieren suscripción.",
+    url: "https://postnauka.org/",
+    access: "Mixto",
+    language: "Ruso",
+  },
+  {
+    id: "elementy",
+    category: "universidades",
+    title: "Elementy: la gran ciencia",
+    original: "Элементы большой науки",
+    org: "Portal de divulgación científica",
+    description:
+      "Noticias científicas, artículos, conferencias, libros y un problema semanal de física, biología, química, matemáticas y lingüística.",
+    url: "https://elementy.ru/",
+    access: "Acceso libre",
+    language: "Ruso",
+  },
+
+  /* ---------- Cultura ---------- */
+  {
+    id: "rvb",
+    category: "cultura",
+    title: "Biblioteca Virtual Rusa",
+    original: "Русская виртуальная библиотека",
+    org: "Literatura clásica rusa en línea",
+    description:
+      "Ediciones cuidadas de los clásicos de la literatura rusa para leer en el idioma original.",
+    url: "https://www.rvb.ru/",
+    access: "Gratis",
+    language: "Ruso",
+  },
+  {
+    id: "wikisource",
+    category: "cultura",
+    title: "Wikisource en ruso",
+    original: "Викитека",
+    org: "Biblioteca libre de textos de dominio público",
+    description:
+      "Novelas, poesía, documentos históricos y diccionarios en ruso, libres para leer, copiar y compartir.",
+    url: "https://ru.wikisource.org/",
+    access: "Gratis",
+    language: "Ruso",
+  },
+  {
+    id: "arzamas",
+    category: "cultura",
+    title: "Arzamas",
+    org: "Historia, literatura y arte",
+    description:
+      "Cursos, podcasts, revista y una app de radio sobre cultura rusa y universal: literatura, arte del siglo XX, teatro, cine, música y folclor.",
+    note: "Parte del contenido es abierto; el acceso completo a los cursos es con suscripción.",
+    url: "https://arzamas.academy/",
+    access: "Mixto",
+    language: "Ruso",
+  },
+
+  /* ---------- Fuentes de información ---------- */
+  {
+    id: "embajada",
+    category: "informacion",
+    title: "Embajada de Rusia en México",
+    org: "Sitio oficial",
+    description:
+      "Información consular, visas, trámites y noticias oficiales de la embajada en la Ciudad de México. Es la fuente a consultar antes de viajar.",
+    url: "https://mexico.mid.ru/",
+    access: "Acceso libre",
+    language: "Español · ruso",
+  },
+  {
+    id: "ras",
+    category: "informacion",
+    title: "Academia Rusa de Ciencias",
+    original: "Российская академия наук",
+    org: "Máxima institución científica de Rusia",
+    description: "Noticias científicas, institutos de investigación, premios y publicaciones oficiales de la Academia.",
+    url: "https://www.ras.ru/",
+    access: "Acceso libre",
+    language: "Ruso · inglés",
+  },
+  {
+    id: "rgo",
+    category: "informacion",
+    title: "Sociedad Geográfica Rusa",
+    original: "Русское географическое общество",
+    org: "Geografía, expediciones y naturaleza",
+    description:
+      "Artículos y reportajes sobre la geografía de Rusia, expediciones, concursos de fotografía y proyectos de conservación.",
+    url: "https://www.rgo.ru/",
+    access: "Acceso libre",
+    language: "Ruso · inglés",
+  },
+  {
+    id: "rbth",
+    category: "informacion",
+    title: "Russia Beyond en español",
+    org: "Revista de cultura y vida cotidiana",
+    description: "Artículos en español sobre cultura, historia, viajes, idioma y gastronomía rusa.",
+    note: "Medio financiado por el Estado ruso.",
+    url: "https://es.rbth.com/",
+    access: "Acceso libre",
+    language: "Español",
+  },
+  {
+    id: "tass",
+    category: "informacion",
+    title: "TASS",
+    org: "Agencia de noticias",
+    description: "Noticias de Rusia y del mundo, con versión en inglés.",
+    note: "Agencia de noticias estatal.",
+    url: "https://tass.com/",
+    access: "Acceso libre",
+    language: "Inglés · ruso",
+  },
+  {
+    id: "interfax",
+    category: "informacion",
+    title: "Interfax",
+    org: "Agencia de noticias",
+    description: "Noticias de política, economía y negocios de Rusia, con versión en inglés.",
+    note: "Agencia de noticias privada.",
+    url: "https://interfax.com/",
+    access: "Acceso libre",
+    language: "Inglés · ruso",
+  },
+  {
+    id: "meduza",
+    category: "informacion",
+    title: "Meduza",
+    org: "Medio de noticias",
+    description: "Noticias y reportajes sobre Rusia, con edición en inglés.",
+    note: "Medio independiente con sede fuera de Rusia (Letonia).",
+    url: "https://meduza.io/en",
+    access: "Acceso libre",
+    language: "Inglés · ruso",
+  },
+
 ];
 
 /* Puentes en la historia: México ⟷ Rusia */
