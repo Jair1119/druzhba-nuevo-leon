@@ -18,9 +18,17 @@ Monterrey para todo México.
   línea de tiempo y artículos.
 - **Videos** de Monterrey y Rusia, que se reproducen al aparecer en pantalla y se abren
   en grande.
+- **Puentes en la historia**: línea de tiempo México–Rusia, de las relaciones de 1890 a
+  Pávlova, Maiakovski, Eisenstein y el Mundial de 2018.
+- **Calendario que rima**: fiestas rusas y su equivalente mexicano, en tarjetas que giran.
+- **Cursos y becas gratuitos**: becas para estudiar en Rusia, cursos de ruso,
+  universidades abiertas, cine y museos en línea, con filtros. Los datos están en
+  `client/src/content/recursos.ts` (verificados en noviembre de 2026).
 - **Cultura rusa** (artículos), **Aprende ruso** (alfabeto interactivo y frases con
-  pronunciación en voz), **Comunidad**, **Apoya el proyecto** y **Contacto**.
-- Formularios de registro, boletín y contacto guardados en la base de datos.
+  pronunciación en voz), **Comunidad**, **Apoya el proyecto**, **Preguntas frecuentes**
+  y **Contacto**.
+- Formularios de registro, boletín y contacto (base de datos o Formspree).
+- Fotos en WebP con respaldo JPG, carga diferida y datos estructurados para buscadores.
 - Respeta la preferencia de “reducir movimiento” del sistema y funciona en celular.
 
 ## Tecnología
