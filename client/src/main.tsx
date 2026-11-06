@@ -13,8 +13,10 @@ import "./perf.css";
 import "./directory.css";
 import "./hoy.css";
 import { initPerfMode } from "./lib/perfMode";
+import { initIdle } from "./lib/idle";
 
 initPerfMode();
+initIdle();
 
 const queryClient = new QueryClient();
 

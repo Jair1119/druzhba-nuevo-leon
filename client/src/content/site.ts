@@ -230,6 +230,8 @@ export type Clip = {
   mov: string;
   vertical?: boolean;
   /** Tramo del video (segundos) que se repite en bucle. */
+  /** Clip propio optimizado (H.264 720p, 24 fps) para la página. */
+  local: string;
   start?: number;
   end?: number;
 };
@@ -238,10 +240,11 @@ const clip = (
   id: string,
   path: string,
   file: string,
-  meta: Omit<Clip, "id" | "poster" | "low" | "high" | "mov">
+  meta: Omit<Clip, "id" | "poster" | "low" | "high" | "mov" | "local">
 ): Clip => ({
   id,
   poster: img(`v-${id}`),
+  local: `${import.meta.env.BASE_URL}media/video/${id}.mp4`,
   low: `${T}/${path}/${file}/${file}.480p.vp9.webm`,
   high: `${T}/${path}/${file}/${file}.1080p.vp9.webm`,
   mov: `${T}/${path}/${file}/${file}.360p.mpeg4.mov`,

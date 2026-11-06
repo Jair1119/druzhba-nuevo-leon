@@ -26,8 +26,9 @@
 @keyframes b-arm { from { transform: rotate(14deg); } to { transform: rotate(-14deg); } }
 
 /* De pie: respira y parpadea */
-.beto-stand .b-head { animation: b-breathe 2.6s ease-in-out infinite; }
-.beto .b-eyes { transform-box: fill-box; transform-origin: center; animation: b-blink 4.2s infinite; }
+
+.beto .b-eyes { transform-box: fill-box; transform-origin: center; transition: transform 0.08s; }
+.mascot.blink .b-eyes { transform: scaleY(0.1); }
 @keyframes b-breathe { 50% { transform: rotate(-2deg) translateY(1px); } }
 @keyframes b-blink { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(0.1); } }
 

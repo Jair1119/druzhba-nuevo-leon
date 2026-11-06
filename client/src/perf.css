@@ -51,3 +51,15 @@
 .lite-toggle i::after { content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: white; transition: transform 0.3s var(--ease); }
 .lite-toggle[aria-pressed="true"] i { background: #1fa971; }
 .lite-toggle[aria-pressed="true"] i::after { transform: translateX(12px); }
+
+/* 8. Pausa por inactividad y animaciones decorativas finitas
+      (una animación infinita obliga al navegador a redibujar en cada cuadro). */
+.idle *, .idle *::before, .idle *::after { animation-play-state: paused !important; }
+.scroll-cue { animation-iteration-count: 4; }
+.learn-more svg { animation-iteration-count: 3; }
+.bridge:not(.on) .pulse { animation-play-state: paused; }
+
+/* 9. Portada: corte recto (sin máscara diagonal sobre el video) y listón sin filtros. */
+.hero-seam { transform: none; filter: none; width: 12px; margin-left: -6px; box-shadow: 0 0 28px rgba(5, 12, 29, 0.55); }
+.hero-layer-ru { overflow: hidden; will-change: transform; }
+.hero-layer-in { position: absolute; inset: 0; will-change: transform; }

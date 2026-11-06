@@ -21,6 +21,7 @@ import {
   type ElementType,
 } from "react";
 import { useLite } from "@/lib/perfMode";
+import { useIdle } from "@/lib/idle";
 
 export const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -315,11 +316,12 @@ export function VelocityMarquee({
   const x = useTransform(baseX, v => `${wrap(-50, 0, v)}%`);
   const dir = useRef(1);
   const lite = useLite();
+  const idle = useIdle();
   // Solo se mueve cuando está en pantalla.
   const boxRef = useRef<HTMLDivElement>(null);
   const onScreen = useInView(boxRef);
   useAnimationFrame((_, delta) => {
-    if (reduce || lite || !onScreen) return;
+    if (reduce || lite || idle || !onScreen) return;
     let move = dir.current * baseVelocity * (delta / 1000);
     const f = factor.get();
     if (f < 0) dir.current = -1;
@@ -577,7 +579,8 @@ export function LazyVideo({
   const lite = useLite();
   const hoverMode = hoverPlay && fine;
   // En modo ligero solo se reproduce lo que la persona pide (al pasar el cursor).
-  const wantPlay = hoverMode ? hovered : lite || (desktopOnly && !fine) ? false : hoverPlay ? visible : inView;
+  const idle = useIdle();
+  const wantPlay = (hoverMode ? hovered : lite || (desktopOnly && !fine) ? false : hoverPlay ? visible : inView) && (!idle || hovered);
   const [armed, setArmed] = useState(eager);
 
   useEffect(() => {

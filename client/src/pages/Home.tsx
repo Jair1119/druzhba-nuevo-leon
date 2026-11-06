@@ -6,6 +6,7 @@ import {
   motion,
   useMotionTemplate,
   useMotionValue,
+  useInView,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
@@ -105,10 +106,15 @@ const SOON_TEXT =
 const ERROR_TEXT =
   "No pudimos enviar el formulario. Revisa tus datos e inténtalo de nuevo.";
 
-const videoSources = (c: Clip, hq = false) => [
-  { src: hq ? c.high : c.low, type: "video/webm" },
-  { src: c.mov, type: "video/mp4" },
-];
+// En la página: MP4 H.264 propios (decodificación por hardware, poco CPU).
+// En la ventana grande: alta definición desde Wikimedia.
+const videoSources = (c: Clip, hq = false) =>
+  hq
+    ? [
+        { src: c.high, type: "video/webm" },
+        { src: c.mov, type: "video/mp4" },
+      ]
+    : [{ src: c.local, type: "video/mp4" }];
 
 /* ------------------------------------------------------------------ */
 /* Piezas pequeñas                                                     */
@@ -296,7 +302,10 @@ function Hero({ ready }: { ready: boolean }) {
   const fine = useMedia("(pointer: fine)");
   const reduce = useReducedMotion();
   const split = useSpring(50, { stiffness: 60, damping: 18 });
-  const clip = useMotionTemplate`polygon(calc(${split}% + 7vw) 0, 100% 0, 100% 100%, calc(${split}% - 7vw) 100%)`;
+  // Corte vertical con transform: la capa de Moscú se desplaza y su contenido se
+  // contra-desplaza. La tarjeta gráfica lo mueve sin redibujar el video.
+  const layerX = useTransform(split, v => `${v}%`);
+  const innerX = useTransform(split, v => `${-v}%`);
   const seamX = useTransform(split, v => `${v}vw`);
 
   const { scrollYProgress } = useScroll({
@@ -338,21 +347,18 @@ function Hero({ ready }: { ready: boolean }) {
           />
           <div className="hero-tint mx" />
         </div>
-        <motion.div
-          className="hero-layer hero-layer-ru"
-          style={{ clipPath: clip }}
-        >
+        <motion.div className="hero-layer hero-layer-ru" style={{ x: layerX }}>
+          <motion.div className="hero-layer-in" style={{ x: innerX }}>
           <LazyVideo
             eager
             desktopOnly
             className="hero-video"
             poster={toWebp(ru.poster, 1600)}
             sources={videoSources(ru)}
-            start={ru.start}
-            end={ru.end}
             alt="Video aéreo de Moscú"
           />
           <div className="hero-tint ru" />
+          </motion.div>
         </motion.div>
         <motion.div
           className="hero-seam"
@@ -474,6 +480,8 @@ function Hero({ ready }: { ready: boolean }) {
 
 function Bridge() {
   const ref = useRef<HTMLElement>(null);
+  // Los pulsos del mapa solo se animan cuando la sección está a la vista.
+  const bridgeOn = useInView(ref);
   const pathRef = useRef<SVGPathElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -500,7 +508,7 @@ function Bridge() {
   const glow = useTransform(draw, [0.95, 1], [0, 1]);
 
   return (
-    <section ref={ref} className="bridge" id="puente">
+    <section ref={ref} className={`bridge ${bridgeOn ? "on" : ""}`} id="puente">
       <div className="bridge-sticky">
         <div className="bridge-grid" aria-hidden="true" />
         <div className="wrap bridge-inner">
@@ -974,8 +982,6 @@ function Videos({ onPlay }: { onPlay: (c: Clip) => void }) {
                   className="clip-video"
                   poster={toWebp(c.poster, 800)}
                   sources={videoSources(c)}
-                  start={c.start}
-                  end={c.end}
                   hoverPlay
                   alt={c.title}
                 />

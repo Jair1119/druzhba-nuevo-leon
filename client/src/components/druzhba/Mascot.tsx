@@ -3,6 +3,7 @@ import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { BetoFigure, type Hat } from "./Beto";
 import { EASE } from "./fx";
 import { useLite } from "@/lib/perfMode";
+import { useIdle } from "@/lib/idle";
 
 type Pose = "walk" | "stand" | "tip" | "wave";
 const ChatPanel = lazy(() => import("./ChatPanel"));
@@ -25,6 +26,26 @@ export function Mascot() {
   const [open, setOpen] = useState(false);
   const openRef = useRef(open);
   openRef.current = open;
+  const idle = useIdle();
+  const idleRef = useRef(idle);
+  idleRef.current = idle;
+  // Parpadeo puntual (en vez de una animación infinita que obliga a redibujar siempre).
+  const [blink, setBlink] = useState(false);
+  useEffect(() => {
+    if (reduce) return;
+    let t = 0;
+    const loop = () => {
+      t = window.setTimeout(() => {
+        if (!idleRef.current && !document.hidden) {
+          setBlink(true);
+          window.setTimeout(() => setBlink(false), 150);
+        }
+        loop();
+      }, 3500 + Math.random() * 3000);
+    };
+    loop();
+    return () => window.clearTimeout(t);
+  }, [reduce]);
 
   // Rutina: camina, se detiene, a veces cambia de sombrero y saluda.
   useEffect(() => {
@@ -40,7 +61,7 @@ export function Mascot() {
     const run = async () => {
       await wait(2500);
       while (alive) {
-        if (openRef.current) {
+        if (openRef.current || idleRef.current) {
           setPose("stand");
           await wait(500);
           continue;
@@ -72,7 +93,7 @@ export function Mascot() {
           await wait(2200);
           setBubble(null);
         } else {
-          await wait(1200 + Math.random() * 1800);
+          await wait(3000 + Math.random() * 4000);
         }
       }
     };
@@ -91,7 +112,7 @@ export function Mascot() {
 
   return (
     <>
-      <motion.div className="mascot" style={{ x }} initial={false}>
+      <motion.div className={`mascot ${blink ? "blink" : ""}`} style={{ x }} initial={false}>
         <AnimatePresence>
           {bubble && !open && (
             <motion.div
