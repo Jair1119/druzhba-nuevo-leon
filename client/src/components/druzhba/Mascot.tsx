@@ -58,12 +58,33 @@ export function Mascot() {
     let ctrl: ReturnType<typeof animate> | null = null;
     let hatNow: Hat = "sombrero";
     let steps = 0;
+    let idleTicks = 0;
+    const swapHat = async () => {
+      // Se quita el sombrero… y aparece el otro.
+      setPose("tip");
+      await wait(650);
+      hatNow = hatNow === "sombrero" ? "ushanka" : "sombrero";
+      setHat(hatNow);
+      await wait(500);
+      setPose("wave");
+      setBubble(hatNow === "ushanka" ? "Привет! 🇷🇺" : "¡Quiubo, raza! 🇲🇽");
+      await wait(2200);
+      setBubble(null);
+    };
     const run = async () => {
       await wait(2500);
       while (alive) {
-        if (openRef.current || idleRef.current) {
+        if (openRef.current) {
           setPose("stand");
           await wait(500);
+          continue;
+        }
+        if (idleRef.current) {
+          // En pausa no camina (ahorra CPU), pero cada ~8 s cambia de sombrero en su lugar.
+          setPose("stand");
+          idleTicks++;
+          if (idleTicks % 16 === 0) await swapHat();
+          else await wait(500);
           continue;
         }
         const max = Math.max(40, window.innerWidth - W - 16);
@@ -82,16 +103,7 @@ export function Mascot() {
           await wait(3200);
           setBubble(null);
         } else if (steps % 2 === 0) {
-          // Se quita el sombrero… y aparece el otro.
-          setPose("tip");
-          await wait(650);
-          hatNow = hatNow === "sombrero" ? "ushanka" : "sombrero";
-          setHat(hatNow);
-          await wait(500);
-          setPose("wave");
-          setBubble(hatNow === "ushanka" ? "Привет! 🇷🇺" : "¡Quiubo, raza! 🇲🇽");
-          await wait(2200);
-          setBubble(null);
+          await swapHat();
         } else {
           await wait(3000 + Math.random() * 4000);
         }

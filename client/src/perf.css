@@ -63,3 +63,5 @@
 .hero-seam { transform: none; filter: none; width: 12px; margin-left: -6px; box-shadow: 0 0 28px rgba(5, 12, 29, 0.55); }
 .hero-layer-ru { overflow: hidden; will-change: transform; }
 .hero-layer-in { position: absolute; inset: 0; will-change: transform; }
+/* Beto sigue cambiando de sombrero durante la pausa (animación corta y barata). */
+.idle .mascot .b-arm { animation-play-state: running !important; }
