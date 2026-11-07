@@ -60,8 +60,16 @@
 .bridge:not(.on) .pulse { animation-play-state: paused; }
 
 /* 9. Portada: corte recto (sin máscara diagonal sobre el video) y listón sin filtros. */
-.hero-seam { transform: none; filter: none; width: 12px; margin-left: -6px; box-shadow: 0 0 28px rgba(5, 12, 29, 0.55); }
+.hero-seam { left: 0; transform: none; filter: none; width: 12px; margin-left: -6px; will-change: transform; box-shadow: 0 0 28px rgba(5, 12, 29, 0.55); }
 .hero-layer-ru { overflow: hidden; will-change: transform; }
 .hero-layer-in { position: absolute; inset: 0; will-change: transform; }
 /* Beto sigue cambiando de sombrero durante la pausa (animación corta y barata). */
 .idle .mascot .b-arm { animation-play-state: running !important; }
+
+/* Portada: zoom lento tipo «Ken Burns» sobre foto, solo transform (GPU), sin decodificar video */
+.hero-kb { animation: kb 9s cubic-bezier(.2,.7,.2,1) both; transform-origin: 50% 55%; }
+.hero-kb.mx { object-position: 30% 60%; transform-origin: 30% 40%; }
+.hero-kb.ru { transform-origin: 60% 50%; animation-duration: 10s; }
+@keyframes kb { from { transform: scale(1.16); } to { transform: scale(1.03); } }
+.idle .hero-kb, .lite .hero-kb { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .hero-kb { animation: none; } }

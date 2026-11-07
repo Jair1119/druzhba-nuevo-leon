@@ -88,3 +88,12 @@
 @media (prefers-reduced-motion: reduce) {
   .beto *, .beto { animation: none !important; }
 }
+
+/* Ahorro: Beto se dibuja como caricatura clásica (pasos, ~8 cuadros/s) en vez de 60 fps,
+   y sin filtro de sombra dinámico; su desplazamiento va en la GPU. */
+.mascot { will-change: transform; }
+.mascot-btn { filter: none; }
+.mascot-btn::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: 2px; height: 8px; border-radius: 50%; background: rgba(5, 12, 29, 0.28); z-index: -1; }
+.mascot-btn { position: relative; }
+.beto-walk { animation-timing-function: steps(3, jump-none); }
+.beto-walk .b-leg-front, .beto-walk .b-leg-back, .beto-walk .b-arm-front, .beto-walk .b-arm-back { animation-timing-function: steps(5, jump-none); }

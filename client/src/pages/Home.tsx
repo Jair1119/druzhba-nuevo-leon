@@ -302,12 +302,13 @@ function Hero({ ready }: { ready: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const fine = useMedia("(pointer: fine)");
   const reduce = useReducedMotion();
-  const split = useSpring(50, { stiffness: 60, damping: 18 });
+  const split = useSpring(50, { stiffness: 140, damping: 32, restDelta: 0.15, restSpeed: 0.5 });
   // Corte vertical con transform: la capa de Moscú se desplaza y su contenido se
   // contra-desplaza. La tarjeta gráfica lo mueve sin redibujar el video.
   const layerX = useTransform(split, v => `${v}%`);
   const innerX = useTransform(split, v => `${-v}%`);
   const seamX = useTransform(split, v => `${v}vw`);
+  const splitTimer = useRef(0);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -329,8 +330,13 @@ function Hero({ ready }: { ready: boolean }) {
       id="inicio"
       onPointerMove={e => {
         if (!fine) return;
+        // Solo cuando el ratón se detiene: un movimiento corto por gesto, no 60 por segundo.
         const p = (e.clientX / window.innerWidth) * 100;
-        split.set(30 + (p / 100) * 40);
+        window.clearTimeout(splitTimer.current);
+        splitTimer.current = window.setTimeout(
+          () => split.set(Math.round((36 + (p / 100) * 28) * 2) / 2),
+          150,
+        );
       }}
       onPointerLeave={() => split.set(50)}
     >
@@ -339,32 +345,30 @@ function Hero({ ready }: { ready: boolean }) {
         style={{ scale: mediaScale }}
       >
         <div className="hero-layer">
-          <LazyVideo
-            eager
-            desktopOnly
-            className="hero-video"
-            poster={toWebp(mx.poster, 1600)}
-            sources={videoSources(mx)}
+          <img
+            className="hero-video hero-kb mx"
+            src={`${import.meta.env.BASE_URL}media/silla-hero.webp`}
             alt="El Cerro de la Silla, Monterrey"
+            fetchPriority="high"
+            decoding="async"
           />
           <div className="hero-tint mx" />
         </div>
         <motion.div className="hero-layer hero-layer-ru" style={{ x: layerX }}>
           <motion.div className="hero-layer-in" style={{ x: innerX }}>
-          <LazyVideo
-            eager
-            desktopOnly
-            className="hero-video"
-            poster={toWebp(ru.poster, 1600)}
-            sources={videoSources(ru)}
+          <img
+            className="hero-video hero-kb ru"
+            src={toWebp(ru.poster, 1600)}
             alt="El Kremlin de Moscú de noche"
+            fetchPriority="high"
+            decoding="async"
           />
           <div className="hero-tint ru" />
           </motion.div>
         </motion.div>
         <motion.div
           className="hero-seam"
-          style={{ left: seamX }}
+          style={{ x: seamX }}
           aria-hidden="true"
         >
           <span />
