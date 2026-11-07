@@ -48,6 +48,7 @@ import { FORMS_ENABLED, STATIC_SITE, useSiteForms } from "@/lib/forms";
 import { Courses, Faq, History, Holidays } from "@/components/druzhba/sections";
 import { Mascot } from "@/components/druzhba/Mascot";
 import { RusiaHoy } from "@/components/druzhba/RusiaHoy";
+import { Ruta } from "@/components/druzhba/Ruta";
 import { setLite, useLite } from "@/lib/perfMode";
 
 function LiteToggle() {
@@ -1422,6 +1423,7 @@ export default function Home() {
           <Culture onOpen={setOpenArticle} />
           <Holidays />
           <Learn />
+          <Ruta />
           <Courses />
 
           {/* COMUNIDAD */}
