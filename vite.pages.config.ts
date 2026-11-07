@@ -6,16 +6,16 @@ import { defineConfig, type Plugin } from "vite";
 /**
  * Versión estática del sitio para GitHub Pages (sin servidor ni Manus).
  * Compila con: pnpm build:pages  →  carpeta docs/
- * Se publica en https://jair1119.github.io/druzhba-nuevo-leon/
+ * Se publica en https://druzhba-nl.com/
  */
 
-const BASE = process.env.PAGES_BASE ?? "/druzhba-nuevo-leon/";
+const BASE = process.env.PAGES_BASE ?? "/";
 
 // Formulario de Formspree que reenvía los registros por correo (público, no es secreto).
 const FORM_ENDPOINT = process.env.VITE_FORM_ENDPOINT ?? "https://formspree.io/f/mrppdwge";
 
 // Dirección pública del sitio (para redes sociales, buscadores y el mapa del sitio).
-const SITE_URL = (process.env.PAGES_URL ?? "https://jair1119.github.io/druzhba-nuevo-leon/").replace(/\/?$/, "/");
+const SITE_URL = (process.env.PAGES_URL ?? "https://druzhba-nl.com/").replace(/\/?$/, "/");
 
 const orgJsonLd = JSON.stringify({
   "@context": "https://schema.org",

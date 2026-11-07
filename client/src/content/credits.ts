@@ -15,7 +15,7 @@ export const mediaCredits: { label: string; author: string; license: string; url
     "label": "Palacio de Gobierno, Macroplaza",
     "author": "Foto proporcionada por Druzhba NL",
     "license": "Uso con permiso",
-    "url": "https://jair1119.github.io/druzhba-nuevo-leon/"
+    "url": "https://druzhba-nl.com/"
   },
   {
     "label": "Parque Fundidora",

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jair1119.github.io/druzhba-nuevo-leon/sitemap.xml
+Sitemap: https://druzhba-nl.com/sitemap.xml

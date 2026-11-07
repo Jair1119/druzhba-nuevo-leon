@@ -6,7 +6,7 @@ import { dirname } from "node:path";
 
 const OUT = process.argv[2] || "news.json";
 const PER_SOURCE = 8;
-const UA = "DruzhbaNuevoLeonBot/1.0 (+https://jair1119.github.io/druzhba-nuevo-leon/)";
+const UA = "DruzhbaNuevoLeonBot/1.0 (+https://druzhba-nl.com/)";
 
 // Fuentes con transparencia: quién las financia o dónde están.
 const SOURCES = [

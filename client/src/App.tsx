@@ -22,7 +22,7 @@ export default function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          {/* En GitHub Pages el sitio vive en /druzhba-nuevo-leon/ */}
+          {/* En GitHub Pages el sitio vive en la raíz de druzhba-nl.com */}
           <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
             <Router />
           </WouterRouter>
