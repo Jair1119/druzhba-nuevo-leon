@@ -393,6 +393,71 @@ const kb: Entry[] = [
       suggestions: ["Becas para estudiar en Rusia"],
     },
   },
+  {
+    keys: ["divide", "division", "divisiones", "estados", "regiones", "provincias", "oblast", "oblasts", "republicas", "krai", "sujetos federales", "organizacion territorial", "federacion"],
+    answer: {
+      text: "Rusia no se divide en «estados» como México, sino en «sujetos federales» de varios tipos:\n• Repúblicas (como Tartaristán o Sajá-Yakutia), con idioma y constitución propios.\n• Óblasts (provincias) y krais (territorios), como el óblast de Moscú o el krai de Krasnodar.\n• Ciudades federales: Moscú y San Petersburgo.\n• Distritos autónomos y un óblast autónomo.\nInternacionalmente se reconocen 83. Rusia cuenta además territorios que incorporó desde 2014 y que la mayoría de los países, incluido México en la ONU, no reconoce.\nPara comparar: México tiene 32 entidades federativas y Nuevo León 51 municipios.",
+      suggestions: ["¿Cuál es la región más grande de Rusia?", "Ciudades más grandes de Rusia", "Datos de Nuevo León"],
+    },
+  },
+  {
+    keys: ["region mas grande", "yakutia", "saja", "tartaristan", "kazan", "chechenia", "daguestan"],
+    answer: {
+      text: "La región más grande de Rusia es la República de Sajá (Yakutia), en Siberia: unos 3.1 millones de km², más grande que Argentina, con apenas un millón de habitantes. Ahí está Oymyakón, uno de los lugares habitados más fríos del planeta (−67 °C). Otra república famosa es Tartaristán, con capital en Kazán, donde conviven la cultura rusa y la tártara musulmana.",
+      suggestions: ["¿Cómo se divide Rusia?", "Clima en Rusia"],
+    },
+  },
+  {
+    keys: ["ciudades", "ciudades grandes", "ciudades mas grandes", "ciudades principales", "novosibirsk", "ekaterimburgo", "nizhni", "sochi"],
+    answer: {
+      text: "Las ciudades más grandes de Rusia: Moscú (~13 millones), San Petersburgo (~5.6 M), Novosibirsk, Ekaterimburgo, Kazán y Nizhni Nóvgorod (más de 1 M cada una). Ekaterimburgo y Cheliábinsk, en los Urales, son ciudades industriales y metalúrgicas: las «Monterreys» de Rusia.",
+      suggestions: ["¿Qué tiene Moscú?", "San Petersburgo", "¿Cómo se divide Rusia?"],
+    },
+  },
+  {
+    keys: ["poblacion", "habitantes", "cuantas personas", "cuanta gente", "cuantos viven"],
+    answer: {
+      text: "Rusia tiene unos 146 millones de habitantes, poco más que México (~130 millones), pero en un territorio casi 9 veces mayor; la mayoría vive en la parte europea, al oeste de los Urales. Nuevo León tiene unos 5.8 millones de habitantes y la zona metropolitana de Monterrey más de 5 millones.",
+      suggestions: ["Ciudades más grandes de Rusia", "Datos de Nuevo León"],
+    },
+  },
+  {
+    keys: ["municipios", "municipios de nuevo leon", "san pedro", "apodaca", "guadalupe", "escobedo", "santa catarina", "san nicolas"],
+    answer: {
+      text: "Nuevo León tiene 51 municipios. La zona metropolitana de Monterrey incluye, entre otros, Monterrey, Guadalupe, Apodaca, San Nicolás de los Garza, General Escobedo, Santa Catarina, San Pedro Garza García, Juárez, García y Santiago.",
+      suggestions: ["Lugares para visitar en Nuevo León", "Historia de Monterrey"],
+    },
+  },
+  {
+    keys: ["idioma", "dificil", "es dificil", "cuanto tiempo", "tardo", "aprender rapido", "gramatica", "casos"],
+    answer: {
+      text: "El ruso tiene fama de difícil, pero para un hispanohablante la pronunciación es bastante amigable: las vocales se parecen mucho a las nuestras y la «r» es vibrante como en español. Lo más retador son los 6 casos gramaticales. Con 20–30 minutos diarios:\n• En 1–2 semanas lees cirílico.\n• En 3–6 meses tienes conversaciones básicas (nivel A2).\nEmpieza por el alfabeto de esta página y sigue con un curso gratuito.",
+      links: [{ label: "Alfabeto interactivo", href: "#aprende" }, { label: "Ruta gratuita", href: "#ruta" }],
+      suggestions: ["Cursos de ruso gratis", "Frases básicas en ruso"],
+    },
+  },
+  {
+    keys: ["deporte", "deportes", "hockey", "ajedrez", "futbol", "rayados", "tigres", "olimpicos", "gimnasia"],
+    answer: {
+      text: "Rusia es potencia en hockey sobre hielo, ajedrez (Kaspárov, Kárpov), gimnasia y patinaje artístico. El futbol también se vive: en el Mundial 2018, celebrado en Rusia, México le ganó 1-0 a Alemania en Moscú. En Nuevo León el futbol es religión, con el Clásico Regio entre Rayados y Tigres. 🏒⚽",
+      suggestions: ["Datos curiosos", "¿Qué une a México y Rusia?"],
+    },
+  },
+  {
+    keys: ["historia de rusia", "zar", "zares", "imperio ruso", "urss", "union sovietica", "sovietica", "revolucion", "1917", "1991"],
+    answer: {
+      text: "En breve:\n• La Rus de Kiev (siglo IX) fue el primer Estado eslavo oriental.\n• Moscú se convirtió en centro del poder y en 1547 Iván IV se coronó zar.\n• Pedro el Grande fundó San Petersburgo en 1703 y abrió Rusia a Europa.\n• La Revolución de 1917 terminó con el zarismo y dio paso a la Unión Soviética (1922–1991).\n• Desde 1991 existe la Federación de Rusia.",
+      links: [{ label: "Línea del tiempo México–Rusia", href: "#historia" }],
+      suggestions: ["¿Cuándo empezaron las relaciones México–Rusia?", "Literatura rusa"],
+    },
+  },
+  {
+    keys: ["religion", "ortodoxa", "iglesia", "iglesias", "cupulas"],
+    answer: {
+      text: "La religión mayoritaria en Rusia es el cristianismo ortodoxo; por eso sus iglesias tienen cúpulas en forma de bulbo, muchas doradas. También hay grandes comunidades musulmanas (Tartaristán, el Cáucaso), budistas (Buriatia, Kalmukia) y judías. La Navidad ortodoxa se celebra el 7 de enero.",
+      suggestions: ["Fiestas rusas", "¿Qué tiene Moscú?"],
+    },
+  },
 ];
 
 /* ---------------- búsqueda en el contenido del sitio ---------------- */
@@ -426,25 +491,21 @@ function searchSite(q: string): BotAnswer | null {
   let best: { d: Doc; s: number } | null = null;
   for (const d of docs) {
     let s = 0;
-    for (const t of qt) if (matches(t, d.tokens)) s += t.length >= 6 ? 2 : 1;
+    let hits = 0;
+    for (const t of qt) if (matches(t, d.tokens)) { s += t.length >= 6 ? 2 : 1; hits++; }
+    if (hits < Math.min(2, qt.length)) continue;
     if (!best || s > best.s) best = { d, s };
   }
-  if (!best || best.s < 2) return null;
+  if (!best || best.s < 3) return null;
   return {
-    text: `Esto es lo que encontré en la página:\n${best.d.text}`,
+    text: `No tengo una respuesta exacta, pero esto de la página puede servirte:\n${best.d.text}`,
     links: [{ label: "Ver en la página", href: best.d.href }],
   };
 }
 
 /* ---------------- motor principal ---------------- */
 
-export function answer(question: string): BotAnswer {
-  const q = question.trim();
-  if (!q) return { text: "¿Qué te gustaría saber?", suggestions: starterSuggestions };
-
-  const tr = translate(q);
-  if (tr) return tr;
-
+function scoreKb(q: string) {
   const n = ` ${norm(q)} `;
   const qt = new Set(tokens(q));
   let best: { e: Entry; s: number } | null = null;
@@ -464,17 +525,45 @@ export function answer(question: string): BotAnswer {
     }
     if (!best || s > best.s) best = { e, s };
   }
+  return best;
+}
+
+const resolve = (e: Entry) => (typeof e.answer === "function" ? e.answer() : e.answer);
+
+// Memoria corta: el tema anterior ayuda con preguntas de seguimiento («¿y su capital?», «¿se divide en estados?»).
+let lastTopic = "";
+
+export function answer(question: string): BotAnswer {
+  const q = question.trim();
+  if (!q) return { text: "¿Qué te gustaría saber?", suggestions: starterSuggestions };
+
+  const tr = translate(q);
+  if (tr) return tr;
+
+  const best = scoreKb(q);
+  if (best && best.s >= 3) {
+    lastTopic = q;
+    return resolve(best.e);
+  }
+
+  // Pregunta corta y ambigua: se interpreta junto con el tema anterior.
+  const followUp = /^(y|e|entonces|ahi|alla|ok|oye)\b|\b(tiene|tienen|su|sus|ahi|alla|ese|esa|eso|estados|capital)\b/.test(norm(q));
+  if (lastTopic && tokens(q).length <= 5 && (followUp || (best?.s ?? 0) > 0)) {
+    const ctx = scoreKb(`${lastTopic} ${q}`);
+    if (ctx && ctx.s > (best?.s ?? 0) + 1.5) return resolve(ctx.e);
+  }
+
   if (best && best.s >= 1.5) {
-    const a = best.e.answer;
-    return typeof a === "function" ? a() : a;
+    lastTopic = q;
+    return resolve(best.e);
   }
 
   const site = searchSite(q);
   if (site) return site;
 
   return {
-    text: "Mmm, esa todavía no me la sé. 🤔 Soy un asistente sencillo que responde con lo que sabe de Rusia, Nuevo León y este proyecto. Prueba con otra pregunta o escríbele al equipo de Druzhba.",
+    text: "Mmm, esa todavía no me la sé. 🤔 Puedo contarte de geografía e historia de Rusia, el idioma ruso, becas y cursos gratuitos, Nuevo León y lo que une a ambos. ¿Probamos con alguna de estas?",
     links: [{ label: "Escribir al equipo", href: "#contacto" }],
-    suggestions: starterSuggestions.slice(0, 4),
+    suggestions: ["¿Cómo se divide Rusia?", "¿Es difícil aprender ruso?", "Becas para estudiar en Rusia", "Lugares para visitar en Nuevo León"],
   };
 }
