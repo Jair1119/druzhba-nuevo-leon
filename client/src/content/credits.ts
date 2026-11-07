@@ -12,10 +12,10 @@ export const mediaCredits: { label: string; author: string; license: string; url
     "url": "https://commons.wikimedia.org/wiki/File:Monterrey,_panor%C3%A1mica_del_Cerro_de_la_Silla_(2014).jpg"
   },
   {
-    "label": "Macroplaza",
-    "author": "ProtoplasmaKid",
-    "license": "CC BY-SA 4.0",
-    "url": "https://commons.wikimedia.org/wiki/File:Macroplaza_Monterrey_2022_-_7.jpg"
+    "label": "Palacio de Gobierno, Macroplaza",
+    "author": "Foto proporcionada por Druzhba NL",
+    "license": "Uso con permiso",
+    "url": "https://jair1119.github.io/druzhba-nuevo-leon/"
   },
   {
     "label": "Parque Fundidora",
@@ -96,7 +96,7 @@ export const mediaCredits: { label: string; author: string; license: string; url
     "url": "https://commons.wikimedia.org/wiki/File:Aerial_views_of_Moscow,_Russia_in_May_2018.webm"
   },
   {
-    "label": "Video: Macroplaza de Monterrey",
+    "label": "Video: Macroplaza de Monterrey (portada: foto proporcionada por Druzhba NL)",
     "author": "ProtoplasmaKid",
     "license": "CC BY-SA 4.0",
     "url": "https://commons.wikimedia.org/wiki/File:Macroplaza_de_Monterrey_y_alrededores.webm"

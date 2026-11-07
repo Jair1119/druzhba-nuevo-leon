@@ -191,7 +191,7 @@ export const rhymes: Rhyme[] = [
   {
     theme: "Plazas que cuentan historia",
     themeRu: "Площади",
-    nl: { src: img("nl-macroplaza"), name: "Macroplaza", place: "Monterrey" },
+    nl: { src: img("nl-macroplaza"), name: "Palacio de Gobierno · Macroplaza", place: "Monterrey" },
     ru: { src: img("ru-kazan"), name: "Kremlin de Kazán", place: "Tatarstán" },
   },
   {
